@@ -73,6 +73,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF56E69F2108C0FA006D6B97 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CF5775B921086847006A077F /* DarkSkyService.swift */,
+				CF5775BB21086880006A077F /* GeoNamesService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		CF5775B121085C11006A077F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,9 +206,8 @@
 		CF8A6371210856B600215C97 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CF5775B921086847006A077F /* DarkSkyService.swift */,
+				CF56E69F2108C0FA006D6B97 /* Services */,
 				CF5775BF21086C78006A077F /* DarkSkyJSONModel.swift */,
-				CF5775BB21086880006A077F /* GeoNamesService.swift */,
 				CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */,
 				CF5775C1210883EE006A077F /* DataAndErrorWrapper.swift */,
 				CF56E6992108857A006D6B97 /* CityCoordinates.swift */,

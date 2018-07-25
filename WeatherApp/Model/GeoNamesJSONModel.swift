@@ -1,6 +1,6 @@
 struct GeoNamesResponse: Decodable {
     let totalResultsCount: Int
-    let geonames: [GeoNames]
+    let geonames: GeoNames
 }
 
 
