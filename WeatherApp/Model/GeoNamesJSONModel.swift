@@ -1,6 +1,6 @@
 struct GeoNamesResponse: Decodable {
     let totalResultsCount: Int
-    let geonames[GeoNames]
+    let geonames: [GeoNames]
 }
 
 
@@ -16,12 +16,12 @@ struct GeoNames: Decodable {
 //    let countryCode : String?
 //    let adminCodes1 : AdminCodes1?
 //    let adminId1 : String?
-//    let lat : String?
+    let lat : String?
 //    let fcode : String?
 //    let continentCode : String?
 //    let adminCode2 : String?
 //    let adminCode1 : String?
-//    let lng : String?
+    let lng : String?
 //    let geonameId : Int?
 //    let toponymName : String?
 //    let population : Int?

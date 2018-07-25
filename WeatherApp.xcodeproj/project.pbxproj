@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4A3830CCFC9A647E030E3980 /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 027AFDAFCBA7DD65D7777208 /* Pods_WeatherApp.framework */; };
+		CF56E69A2108857A006D6B97 /* CityCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56E6992108857A006D6B97 /* CityCoordinates.swift */; };
+		CF56E69C21088D3C006D6B97 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56E69B21088D3C006D6B97 /* WeatherData.swift */; };
 		CF5775BA21086847006A077F /* DarkSkyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775B921086847006A077F /* DarkSkyService.swift */; };
 		CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BB21086880006A077F /* GeoNamesService.swift */; };
 		CF5775BE21086C63006A077F /* GeoNamesJSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */; };
@@ -24,6 +26,8 @@
 		027AFDAFCBA7DD65D7777208 /* Pods_WeatherApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74AC0414418713514CB7EF92 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		99F9E7795B98FA7A2D17B027 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
+		CF56E6992108857A006D6B97 /* CityCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCoordinates.swift; sourceTree = "<group>"; };
+		CF56E69B21088D3C006D6B97 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		CF5775B921086847006A077F /* DarkSkyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkyService.swift; sourceTree = "<group>"; };
 		CF5775BB21086880006A077F /* GeoNamesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesService.swift; sourceTree = "<group>"; };
 		CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesJSONModel.swift; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 				CF5775BB21086880006A077F /* GeoNamesService.swift */,
 				CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */,
 				CF5775C1210883EE006A077F /* DataAndErrorWrapper.swift */,
+				CF56E6992108857A006D6B97 /* CityCoordinates.swift */,
+				CF56E69B21088D3C006D6B97 /* WeatherData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -330,8 +336,10 @@
 				CF5775C021086C78006A077F /* DarkSkyJSONModel.swift in Sources */,
 				CF8A635F2108558700215C97 /* HomeViewController.swift in Sources */,
 				CF5775BE21086C63006A077F /* GeoNamesJSONModel.swift in Sources */,
+				CF56E69A2108857A006D6B97 /* CityCoordinates.swift in Sources */,
 				CF5775BA21086847006A077F /* DarkSkyService.swift in Sources */,
 				CF5775C2210883EE006A077F /* DataAndErrorWrapper.swift in Sources */,
+				CF56E69C21088D3C006D6B97 /* WeatherData.swift in Sources */,
 				CF8A635D2108558700215C97 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
