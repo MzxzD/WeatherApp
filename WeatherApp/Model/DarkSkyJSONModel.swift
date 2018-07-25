@@ -1,8 +1,8 @@
 
 struct DarkSkyResponse: Decodable {
-    let latitude : Double?
-    let longitude : Double?
-    let timezone : String?
+//    let latitude : Double?
+//    let longitude : Double?
+//    let timezone : String?
     let currently : Currently?
     let daily : Daily?
 //    let flags : Flags?

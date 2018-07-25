@@ -10,6 +10,7 @@
 		4A3830CCFC9A647E030E3980 /* Pods_WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 027AFDAFCBA7DD65D7777208 /* Pods_WeatherApp.framework */; };
 		CF56E69A2108857A006D6B97 /* CityCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56E6992108857A006D6B97 /* CityCoordinates.swift */; };
 		CF56E69C21088D3C006D6B97 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56E69B21088D3C006D6B97 /* WeatherData.swift */; };
+		CF56E69E21089D01006D6B97 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF56E69D21089D01006D6B97 /* HomeViewModel.swift */; };
 		CF5775BA21086847006A077F /* DarkSkyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775B921086847006A077F /* DarkSkyService.swift */; };
 		CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BB21086880006A077F /* GeoNamesService.swift */; };
 		CF5775BE21086C63006A077F /* GeoNamesJSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */; };
@@ -28,6 +29,7 @@
 		99F9E7795B98FA7A2D17B027 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		CF56E6992108857A006D6B97 /* CityCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCoordinates.swift; sourceTree = "<group>"; };
 		CF56E69B21088D3C006D6B97 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		CF56E69D21089D01006D6B97 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CF5775B921086847006A077F /* DarkSkyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkyService.swift; sourceTree = "<group>"; };
 		CF5775BB21086880006A077F /* GeoNamesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesService.swift; sourceTree = "<group>"; };
 		CF5775BD21086C63006A077F /* GeoNamesJSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesJSONModel.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		CF5775B421085C70006A077F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CF56E69D21089D01006D6B97 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -154,9 +157,9 @@
 			children = (
 				CF5775B221085C2B006A077F /* StorryBoard */,
 				CF8A6371210856B600215C97 /* Model */,
+				CF8A636E210856AC00215C97 /* Home */,
 				CF8A6370210856B300215C97 /* Settings */,
 				CF8A636F210856AF00215C97 /* Search */,
-				CF8A636E210856AC00215C97 /* Home */,
 				CF8A635C2108558700215C97 /* AppDelegate.swift */,
 				CF8A63682108558700215C97 /* Info.plist */,
 				CF5775B121085C11006A077F /* Resources */,
@@ -335,6 +338,7 @@
 				CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */,
 				CF5775C021086C78006A077F /* DarkSkyJSONModel.swift in Sources */,
 				CF8A635F2108558700215C97 /* HomeViewController.swift in Sources */,
+				CF56E69E21089D01006D6B97 /* HomeViewModel.swift in Sources */,
 				CF5775BE21086C63006A077F /* GeoNamesJSONModel.swift in Sources */,
 				CF56E69A2108857A006D6B97 /* CityCoordinates.swift in Sources */,
 				CF5775BA21086847006A077F /* DarkSkyService.swift in Sources */,

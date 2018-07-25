@@ -28,10 +28,11 @@ class GeoNamesService{
                     geoNames = data.geonames
                 }catch let error
                 {
-                    for cities in geoNames{
-                        cityLocaton = [CityCoordinates(latitute: cities.lat, longitude: cities.lng, cityname: cities.asciiName)]
-                    }
+
                     return DataAndErrorWrapper(data: [], errorMessage: error.localizedDescription)
+                }
+                for cities in geoNames{
+                    cityLocaton = [CityCoordinates(latitute: cities.lat, longitude: cities.lng, cityname: cities.asciiName)]
                 }
                 
                 return DataAndErrorWrapper(data: cityLocaton, errorMessage: nil)
