@@ -164,6 +164,7 @@
 		CF8A635B2108558700215C97 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				CFC8D7452109C6C7006A2145 /* Error */,
 				CF5775B221085C2B006A077F /* StorryBoard */,
 				CF8A6371210856B600215C97 /* Model */,
 				CF8A636E210856AC00215C97 /* Home */,
@@ -214,6 +215,13 @@
 				CF56E69B21088D3C006D6B97 /* WeatherData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CFC8D7452109C6C7006A2145 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -6,10 +6,6 @@ import RealmSwift
 
 class HomeViewModel {
     
-
-//    fileprivate let geoNameService:GeoNamesService
-//    fileprivate let darkSkyService:DarkSkyService
-    
     var WeatherInformation = Weather()
     var successDownloadTime: Date?
     var coordinates: (laditude: String, longitude: String)?
@@ -19,7 +15,7 @@ class HomeViewModel {
     var errorOccured = PublishSubject<Bool>()
     var geoDownloadTrigger = PublishSubject<Bool>()
     var darkSkyDownloadTrigger = PublishSubject<Bool>()
-//    var realmServise = RealmSerivce()
+    //    var realmServise = RealmSerivce()
     
     
     func initializeObservableGeoNames() -> Disposable{
@@ -29,18 +25,16 @@ class HomeViewModel {
             return GeoNamesService().fetchLatAndLogFromGeoNames()
         }
         
-       return geoObservable
+        return geoObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (geoData) in
                 if geoData.errorMessage == nil{
-                    print(self.WeatherInformation)
                     self.WeatherInformation.cityName = geoData.data.cityname
                     self.coordinates?.laditude = geoData.data.latitute!
                     self.coordinates?.longitude = geoData.data.longitude!
                     self.darkSkyDownloadTrigger.onNext(true)
                 } else {
-                    // ERROR OCCURED
                     self.errorOccured.onNext(true)
                 }
             })
@@ -48,58 +42,69 @@ class HomeViewModel {
     }
     
     func initializeObservableDarkSkyService() -> Disposable{
-        
-        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<WeatherDataToViewModel>> in
+        print("lol")
+        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
+            self.loaderControll.onNext(true)
             return DarkSkyService().fetchWetherDataFromDarkSky()
         }
         
         return darkSkyObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .map({ (darkSkyData) -> DataAndErrorWrapper<WeatherDataToViewModel> in
-
-                for dailyData in (darkSkyData.data.daily?.data)! {
-                    if (dailyData.time == darkSkyData.data.currently?.time) {
-                        self.WeatherInformation.temperatureMax = dailyData.temperatureHigh!
-                        self.WeatherInformation.temperatureMin = dailyData.temperatureLow!
+            .map({ [unowned self] (darkSkyData) -> DataAndErrorWrapper<DarkSkyResponse> in
+                self.WeatherInformation.humidity = (darkSkyData.data.currently?.humidity)!
+                self.WeatherInformation.icon = icon(rawValue: (darkSkyData.data.currently?.icon)!)
+                self.WeatherInformation.pressure = Int((darkSkyData.data.currently?.pressure)!)
+                self.WeatherInformation.summary = (darkSkyData.data.currently?.summary)!
+                self.WeatherInformation.temperature = Int((darkSkyData.data.currently?.temperature)!)
+                self.WeatherInformation.windSpeed = (darkSkyData.data.currently?.windSpeed)!
+                
+                let weatherImageTuple: (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) = (self.WeatherInformation.icon?.values())!
+                self.WeatherInformation.bodyImage = weatherImageTuple.bodyWeatherImage
+                self.WeatherInformation.headerImage = weatherImageTuple.headerWeatherImaage
+                self.WeatherInformation.backgroundColor = weatherImageTuple.color
+                
+                let dailyArray = darkSkyData.data.daily?.data
+                var differenceInTime: Int!
+                var smallestDifferenceInTime: Int!
+                var temporaryClosestTime: Int!
+                for dailyValues in dailyArray!{
+                    differenceInTime = abs((darkSkyData.data.currently?.time)! - dailyValues.time!)
+                    if (smallestDifferenceInTime != nil) {
+                        if (differenceInTime < smallestDifferenceInTime){
+                            smallestDifferenceInTime = differenceInTime
+                            temporaryClosestTime = dailyValues.time!
+                        }
+                    }else {
+                        smallestDifferenceInTime = differenceInTime
+                        temporaryClosestTime = dailyValues.time!
+                    }
+                    
+                }
+                
+                for dailyValues in dailyArray! {
+                    if (dailyValues.time == temporaryClosestTime){
+                        
+                        self.WeatherInformation.temperatureMax = dailyValues.temperatureHigh!
+                        self.WeatherInformation.temperatureMin = dailyValues.temperatureLow!
+                        self.WeatherInformation.time = dailyValues.time!
+                        
                     }
                 }
                 
-                
                 return (darkSkyData)
             })
-            
-            
             .subscribe(onNext: { (darkSkyData) in
                 if darkSkyData.errorMessage == nil {
-                    
-                    self.WeatherInformation.humidity = (darkSkyData.data.currently?.humidity)!
-                    self.WeatherInformation.icon = (darkSkyData.data.currently?.icon)!
-                    self.WeatherInformation.pressure = (darkSkyData.data.currently?.pressure)!
-                    self.WeatherInformation.summary = (darkSkyData.data.currently?.summary)!
-                    self.WeatherInformation.temperature = (darkSkyData.data.currently?.temperature)!
-                    self.WeatherInformation.windSpeed = (darkSkyData.data.currently?.windSpeed)!
-                    
-                    
-                    
-                    
-                    
-                    print(self.WeatherInformation)
                     self.dataIsReady.onNext(true)
-                    
                     
                 } else{
                     self.errorOccured.onNext(true)
                 }
             })
-        
-        
     }
-    func checkForNewData() {
-        if (self.WeatherInformation.cityName == ""){
+    func chechForNewWeatherInformation() {
             self.darkSkyDownloadTrigger.onNext(true)
-        }
     }
-    
     
 }

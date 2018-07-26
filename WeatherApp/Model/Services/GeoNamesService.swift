@@ -6,15 +6,14 @@ import RxAlamofire
 
 
 class GeoNamesService{
-    let maxRows = "maxRows=3"
-    let q = "q=Osijek"
-    let username = "username=mdoslic"
+    let maxRows = "3"
+    let q = "Osijek"
+    let username = "mdoslic"
     
 
     
     func fetchLatAndLogFromGeoNames() -> Observable<DataAndErrorWrapper<CityCoordinates>> {
-//            let url = URL(string: "http://api.geonames.org/searchJSON?formatted=true&\(self.q)&\(self.maxRows)&lang=es&\(self.username)&style=full")
-        let url = URL(string: "http://api.geonames.org/searchJSON?formatted=true&q=Zagreb&maxRows=3&lang=es&username=mdoslic&style=full")
+            let url = URL(string: "http://api.geonames.org/searchJSON?formatted=true&q=\(self.q)&maxRows=\(self.maxRows)&lang=es&username=\(self.username)&style=full")
         
         
         print("entered GEO")
