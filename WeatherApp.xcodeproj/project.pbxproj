@@ -21,6 +21,8 @@
 		CF8A63622108558700215C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63602108558700215C97 /* Main.storyboard */; };
 		CF8A63642108558700215C97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63632108558700215C97 /* Assets.xcassets */; };
 		CF8A63672108558700215C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63652108558700215C97 /* LaunchScreen.storyboard */; };
+		CFA2AE1B2109FCDA00510A75 /* GothamRounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */; };
+		CFA2AE1C2109FCDA00510A75 /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		CF8A63632108558700215C97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF8A63662108558700215C97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF8A63682108558700215C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GothamRounded-Light.otf"; path = "../../../../../FONTS/GothamRounded-Light.otf"; sourceTree = "<group>"; };
+		CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GothamRounded-Book.otf"; path = "../../../../../FONTS/GothamRounded-Book.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,7 @@
 		CF5775B121085C11006A077F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2AE162109FA5100510A75 /* fonts */,
 				CF8A63632108558700215C97 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -217,6 +222,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CFA2AE162109FA5100510A75 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */,
+				CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		CFC8D7452109C6C7006A2145 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,7 +299,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFA2AE1B2109FCDA00510A75 /* GothamRounded-Light.otf in Resources */,
 				CF8A63672108558700215C97 /* LaunchScreen.storyboard in Resources */,
+				CFA2AE1C2109FCDA00510A75 /* GothamRounded-Book.otf in Resources */,
 				CF8A63642108558700215C97 /* Assets.xcassets in Resources */,
 				CF8A63622108558700215C97 /* Main.storyboard in Resources */,
 			);

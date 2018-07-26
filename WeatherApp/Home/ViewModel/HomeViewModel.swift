@@ -15,6 +15,7 @@ class HomeViewModel {
     var errorOccured = PublishSubject<Bool>()
     var geoDownloadTrigger = PublishSubject<Bool>()
     var darkSkyDownloadTrigger = PublishSubject<Bool>()
+    var darkServise = DarkSkyService()
     //    var realmServise = RealmSerivce()
     
     
@@ -42,23 +43,24 @@ class HomeViewModel {
     }
     
     func initializeObservableDarkSkyService() -> Disposable{
-        print("lol")
-        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
-            self.loaderControll.onNext(true)
-            return DarkSkyService().fetchWetherDataFromDarkSky()
-        }
+        let darkSkyObservable = self.darkServise.fetchWetherDataFromDarkSky()
+//        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
+////             self.loaderControll.onNext(true)
+//            print("triggered")
+//            return self.darkServise.fetchWetherDataFromDarkSky()
+//        }
         
         return darkSkyObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .map({ [unowned self] (darkSkyData) -> DataAndErrorWrapper<DarkSkyResponse> in
-                self.WeatherInformation.humidity = (darkSkyData.data.currently?.humidity)!
+                self.WeatherInformation.humidity = (darkSkyData.data.currently?.humidity)! * 100
                 self.WeatherInformation.icon = icon(rawValue: (darkSkyData.data.currently?.icon)!)
                 self.WeatherInformation.pressure = Int((darkSkyData.data.currently?.pressure)!)
                 self.WeatherInformation.summary = (darkSkyData.data.currently?.summary)!
                 self.WeatherInformation.temperature = Int((darkSkyData.data.currently?.temperature)!)
                 self.WeatherInformation.windSpeed = (darkSkyData.data.currently?.windSpeed)!
-                
+                print("saving data")
                 let weatherImageTuple: (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) = (self.WeatherInformation.icon?.values())!
                 self.WeatherInformation.bodyImage = weatherImageTuple.bodyWeatherImage
                 self.WeatherInformation.headerImage = weatherImageTuple.headerWeatherImaage
@@ -96,6 +98,7 @@ class HomeViewModel {
             })
             .subscribe(onNext: { (darkSkyData) in
                 if darkSkyData.errorMessage == nil {
+                    print("huh")
                     self.dataIsReady.onNext(true)
                     
                 } else{
@@ -104,7 +107,9 @@ class HomeViewModel {
             })
     }
     func chechForNewWeatherInformation() {
-            self.darkSkyDownloadTrigger.onNext(true)
+        print("chech")
+        self.darkSkyDownloadTrigger.onNext(true)
+        
     }
     
 }

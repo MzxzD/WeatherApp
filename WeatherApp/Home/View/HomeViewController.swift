@@ -4,10 +4,16 @@ import AlamofireImage
 import RxSwift
 
 class HomeViewController: UIViewController {
-
+    
     let disposeBag = DisposeBag()
     var alert = UIAlertController()
     var homeViewModel = HomeViewModel()
+    
+    let customFont: UIFont = {
+        let font = UIFont(name: "GothamRounded-Light", size: 50)
+        return font!
+        
+    }()
     
     var splashScreen : UIImageView = {
         let image = UIImageView()
@@ -17,7 +23,7 @@ class HomeViewController: UIViewController {
     
     
     var weatherInfoView: UIView = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     
@@ -31,14 +37,14 @@ class HomeViewController: UIViewController {
     var weatherBodyImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-         view.contentMode = .scaleToFill
+        view.contentMode = .scaleToFill
         return view
     }()
     
     var temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 72)
+        label.font = UIFont(name: "GothamRounded-Book", size: 72)
         label.text = "27"
         label.textColor = UIColor.white
         return label
@@ -47,7 +53,7 @@ class HomeViewController: UIViewController {
     var weatherLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
         label.text = "Vrijeme"
         label.textColor = UIColor.white
         return label
@@ -56,49 +62,49 @@ class HomeViewController: UIViewController {
     var cityLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 36)
+        label.font = UIFont(name: "GothamRounded-Book", size: 36)
         label.text = "Grad"
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
     var minTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
         label.textAlignment = .center
         label.text = "min"
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
     var maxTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
+        label.font = UIFont(name: "GothamRounded-Light", size: 24)
         label.textAlignment = .center
         label.text = "max"
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
     var lowTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
         label.textAlignment = .center
         label.text = "Low"
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
     var highTemperature: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "AvenirNext-medium", size: 20)
+        label.font = UIFont(name: "GothamRounded-Light", size: 20)
         label.textAlignment = .center
         label.text = "High"
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -139,7 +145,7 @@ class HomeViewController: UIViewController {
         label.font = UIFont(name: "AvenirNext-medium", size: 20)
         label.text = "rain"
         label.textAlignment = .center
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -149,7 +155,7 @@ class HomeViewController: UIViewController {
         label.font = UIFont(name: "AvenirNext-medium", size: 20)
         label.text = "wind"
         label.textAlignment = .center
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -159,7 +165,7 @@ class HomeViewController: UIViewController {
         label.font = UIFont(name: "AvenirNext-medium", size: 20)
         label.text = "pressure"
         label.textAlignment = .center
-         label.textColor = UIColor.white
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -171,9 +177,20 @@ class HomeViewController: UIViewController {
     }()
     
     var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
+        let searchBar = UISearchBar ()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.backgroundColor = UIColor.clear
+        searchBar.barTintColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 1)
+        searchBar.layer.cornerRadius = 18
+        searchBar.clipsToBounds = true
+        
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        searchTextField.layer.cornerRadius = 15
+        searchTextField.textAlignment = NSTextAlignment.left
+        searchTextField.leftView = nil
+        searchTextField.placeholder = "Search"
+
         return searchBar
     }()
     
@@ -217,20 +234,22 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         print("viewloaded")
-        initializeSplashScreen()
+        //        initializeSplashScreen()
         initializeDataObservable()
         initializeError()
-//        homeViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
+        //        homeViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
         homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
-
+        
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        homeViewModel.chechForNewWeatherInformation()
-        homeViewModel.darkSkyDownloadTrigger.onNext(true)
         print("viewAppeared")
+        homeViewModel.chechForNewWeatherInformation()
+        
+        
     }
     
     func initializeSplashScreen() {
@@ -256,6 +275,7 @@ class HomeViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 if event {
+                    print("error")
                     // ERROR OCCURED
                 }
             })
@@ -264,6 +284,7 @@ class HomeViewController: UIViewController {
     
     
     func initializeDataObservable(){
+        print("DataIsReadyObserver")
         let observer = homeViewModel.dataIsReady
         observer
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -271,7 +292,7 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [unowned self] (event) in
                 
                 if event {
-                    self.splashScreen.removeFromSuperview()
+                    
                     self.setupView()
                 }
             })
@@ -281,9 +302,9 @@ class HomeViewController: UIViewController {
     func setupView(){
         let WeatherInfo = homeViewModel.WeatherInformation
         
- 
+        
         view.backgroundColor = WeatherInfo.backgroundColor
-
+        
         
         view.addSubview(weatherHeaderImage)
         weatherHeaderImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -303,19 +324,20 @@ class HomeViewController: UIViewController {
         view.addSubview(weatherInfoView)
         weatherInfoView.frame = self.view.bounds
         
-       
+        
         weatherInfoView.addSubview(temperatureLabel)
         temperatureLabel.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
         temperatureLabel.centerYAnchor.constraint(equalTo: weatherInfoView.topAnchor, constant: 150).isActive = true
-
+        temperatureLabel.font = customFont
+        
         weatherInfoView.addSubview(weatherLabel)
-        weatherLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: -10).isActive =  true
+        weatherLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive =  true
         weatherLabel.centerXAnchor.constraint(equalTo: temperatureLabel.centerXAnchor).isActive = true
-
+        
         weatherInfoView.addSubview(cityLabel)
         cityLabel.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
         cityLabel.centerYAnchor.constraint(equalTo: weatherInfoView.centerYAnchor).isActive = true
-
+        
         weatherInfoView.addSubview(stackViewMinMaxTemperature)
         stackViewMinMaxTemperature.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewMinMaxTemperature.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
@@ -323,12 +345,8 @@ class HomeViewController: UIViewController {
         stackViewMinMaxTemperature.centerYAnchor.constraint(equalTo: weatherInfoView.centerYAnchor, constant: 60).isActive = true
         stackViewMinMaxTemperature.addArrangedSubview(minTemperature)
         stackViewMinMaxTemperature.addArrangedSubview(maxTemperature)
-
-        weatherInfoView.addSubview(separatorLine)
-        separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
-        separatorLine.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
-        separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
-        separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
+        
+        
         
         weatherInfoView.addSubview(stackViewLowHighTemperature)
         stackViewLowHighTemperature.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
@@ -337,7 +355,7 @@ class HomeViewController: UIViewController {
         stackViewLowHighTemperature.heightAnchor.constraint(equalToConstant: 40).isActive = true
         stackViewLowHighTemperature.addArrangedSubview(lowTemperature)
         stackViewLowHighTemperature.addArrangedSubview(highTemperature)
-
+        
         weatherInfoView.addSubview(stackViewRainWindPressureImages)
         stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
@@ -346,7 +364,7 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
         stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
-
+        
         weatherInfoView.addSubview(stackViewRainWindPressure)
         stackViewRainWindPressure.topAnchor.constraint(equalTo: stackViewRainWindPressureImages.bottomAnchor).isActive = true
         stackViewRainWindPressure.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
@@ -354,35 +372,39 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressure.addArrangedSubview(rainChance)
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
-
-
-
+        
+        weatherInfoView.addSubview(separatorLine)
+        separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        separatorLine.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
+        separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
+        separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
+        
+        
+        
         weatherInfoView.addSubview(searchBar)
         searchBar.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 15).isActive = true
         searchBar.bottomAnchor.constraint(equalTo: weatherInfoView.bottomAnchor, constant: -20).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor).isActive = true
         searchBar.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -15).isActive = true
-
+        
         weatherInfoView.addSubview(settingsButton)
         settingsButton.centerXAnchor.constraint(equalTo: rainChance.centerXAnchor).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-
+        
         pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
         windSpeed.text = "\( WeatherInfo.windSpeed)mph"
-        rainChance.text = "\(WeatherInfo.humidity*100)%"
+        rainChance.text = "\(WeatherInfo.humidity)%"
         temperatureLabel.text = "\((WeatherInfo.temperature))°"
         minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
         maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
         weatherLabel.text = WeatherInfo.summary
-
-
-        print(WeatherInfo)
+        
         
     }
     
-
-
+    
+    
 }
 

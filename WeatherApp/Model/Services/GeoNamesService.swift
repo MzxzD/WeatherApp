@@ -23,7 +23,7 @@ class GeoNamesService{
             .map({ (response) -> DataAndErrorWrapper<CityCoordinates> in
                 let decoder = JSONDecoder()
                 var geoNames: GeoNames = GeoNames(asciiName: "", lat: "", lng: "", alternateNames: [])
-                var cityLocaton: CityCoordinates = CityCoordinates(latitute: "", longitude: "", cityname: "")
+                var cityLocaton: CityCoordinates = CityCoordinates()
                 let responseJSON = response
                 do {
                     let data = try decoder.decode(GeoNamesResponse.self, from: responseJSON)
@@ -32,13 +32,13 @@ class GeoNamesService{
                 {
                     return DataAndErrorWrapper(data: cityLocaton, errorMessage: error.localizedDescription)
                 }
-                    cityLocaton = CityCoordinates(latitute: geoNames.lat, longitude: geoNames.lng, cityname: geoNames.asciiName)
-                
+                cityLocaton = CityCoordinates(value: ["latitute": geoNames.lat, "longitude": geoNames.lng, "cityname": geoNames.asciiName])
+//                CityCoordinates(latitute: geoNames.lat, longitude: geoNames.lng, cityname: geoNames.asciiName)
                 
                 return DataAndErrorWrapper(data: cityLocaton, errorMessage: nil)
             })
             .catchError({ (error) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
-                return Observable.just(DataAndErrorWrapper(data: CityCoordinates(latitute: "", longitude: "", cityname: ""), errorMessage: error.localizedDescription))
+                return Observable.just(DataAndErrorWrapper(data: CityCoordinates(), errorMessage: error.localizedDescription))
             })
     }
     
