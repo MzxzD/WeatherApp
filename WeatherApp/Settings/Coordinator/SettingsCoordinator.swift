@@ -1,37 +1,36 @@
 //
-//  SearchCoordinator.swift
+//  SettingsCoordinator.swift
 //  WeatherApp
 //
 //  Created by Mateo Došlić on 27/07/2018.
 //  Copyright © 2018 Mateo Došlić. All rights reserved.
 //
 
-
 import Foundation
 import UIKit
 
-class SearchCoordinator: Coordinator {
+class SettingsCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
-    let controller: SearchViewController
+    let controller: SettingsViewController
     
     init(presneter: UINavigationController){
         self.presenter = presneter
-        let searchViewController = SearchViewController()
-        let searchViewModel = SearchViewModel()
-        searchViewController.searchViewModel = searchViewModel
-        self.controller = searchViewController
+        let settingsViewController = SettingsViewController()
+        let settingsViewModel = SettingsViewModel()
+        settingsViewController.settingsViewModel = settingsViewModel
+        self.controller = settingsViewController
     }
     
     func start() {
-        controller.searchViewModel.searchCoordinatorDelegate = self
+        controller.settingsViewModel.settingsCoordinatorDelegate = self
         print(self.presenter.present(controller, animated: true))
     }
     
     
 }
 
-extension SearchCoordinator: DissmissViewDelegate{
+extension SettingsCoordinator: DissmissViewDelegate{
     
     func dissmissView() {
         self.presenter.dismiss(animated: true, completion: nil)
@@ -40,7 +39,5 @@ extension SearchCoordinator: DissmissViewDelegate{
     func viewHasFinished() {
         
     }
-    
-    
     
 }

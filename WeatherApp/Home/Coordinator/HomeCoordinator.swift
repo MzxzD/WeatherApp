@@ -23,15 +23,18 @@ class HomeCoordinator: Coordinator {
     }
     
     func start() {
-        controller.homeViewModel.homeCoordinatorDelegate = self
+        controller.homeViewModel.searchCoordinatorDelegate = self
+        controller.homeViewModel.settingsCoordinatorDelegate = self
         presenter.pushViewController(controller, animated: true)
     }
     
     
 }
 
-extension HomeCoordinator: OpenSearchDelegate {
-    func openSearch() {
+extension HomeCoordinator: SearchViewDelegate {
+
+
+    func OpenSearchView() {
         print("here we go!")
         let searchCoordinator = SearchCoordinator(presneter: self.presenter)
         searchCoordinator.start()
@@ -43,5 +46,15 @@ extension HomeCoordinator: OpenSearchDelegate {
 //        parentCoordinatorDelegate?.childHasFinished(coordinator: self)
     }
     
+    
+}
+
+extension HomeCoordinator: SettingsViewDelegate {
+    func OpenSettingsView() {
+        print("here we go!")
+        let settingsCoordinator = SettingsCoordinator(presneter: self.presenter)
+        settingsCoordinator.start()
+        self.addChildCoordinator(childCoordinator: settingsCoordinator)
+    }
     
 }

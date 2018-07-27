@@ -5,16 +5,16 @@ struct GeoNamesResponse: Decodable {
 
 struct GeoNames: Decodable {
 
-    let asciiName : String?
-    let lat : String?
-    let lng : String?
-    let alternateNames : [AlternateNames]?
+    var asciiName : String?
+    var lat : String?
+    var lng : String?
+//    let alternateNames : [AlternateNames]?
 
 }
 
-struct AlternateNames: Decodable {
-    let name : String?
-    let lang : String?
-}
+//struct AlternateNames: Decodable {
+//    let name : String?
+//    let lang : String?
+//}
 
 

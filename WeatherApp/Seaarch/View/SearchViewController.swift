@@ -16,26 +16,27 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     let disposeBag = DisposeBag()
     var searchViewModel: SearchViewModel!
     var alert = UIAlertController()
+     let cellIdentifier = "WeatherViewCell"
+    
     
     let cancelButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
+        button.setTitle("X", for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
-        let image = UIImage(named: "checkmark_uncheck") as UIImage?
-        button.setBackgroundImage(image, for: .normal)
-        button.titleLabel?.text = "X"
-        button.titleLabel?.textColor = .black
-        button.contentMode = .scaleAspectFit
         return button
     }()
     
     var searchTableView: UITableView = {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         view.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
-        view.backgroundView = blurEffectView
+//        view.backgroundView = blurEffectView
+        view.backgroundColor = .gray
         return view
     }()
 
@@ -58,12 +59,17 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }()
     
     override func viewDidLoad() {
-        self.setupView()
         super.viewDidLoad()
+        view.backgroundColor = .gray
+        self.setupView()
+        searchTableView.register(CityViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        searchTableView.dataSource = self
+        searchTableView.delegate = self
+        searchBar.becomeFirstResponder()
         
     }
     
-    let cellIdentifier = "WeatherViewCell"
+   
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -71,47 +77,48 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? WeatherViewCell else
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CityViewCell else
         {
             errorOccured(value: "The dequeued cell is not an instance of PreviewDataTableViewCell.")
             return UITableViewCell()
             
         }
+        print(cell)
+        cell.cityLabel.text = "London"
+        cell.cityLetterLabel.text = "L"
+        
         return  cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 35
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        listNewsViewModel.newsSelected(selectedNews: indexPath.row)
     }
     
-    
-    @objc func cancelButtonPressed(){
-        print("CancelTapped")
-    }
+
     
     func setupView() {
         
-        
+
         if !UIAccessibilityIsReduceTransparencyEnabled() {
-            view.backgroundColor = .clear
-            
-            let blurEffect = UIBlurEffect(style: .dark)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            //always fill the view
-            blurEffectView.frame = self.view.bounds
-            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-            
-            view.addSubview(blurEffectView)
+
+                let blurEffect = UIBlurEffect(style: .regular)
+                let blurEffectView = UIVisualEffectView(effect: blurEffect)
+                blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+                blurEffectView.frame = self.view.bounds
+                self.view.addSubview(blurEffectView)
+                blurEffectView.isHidden = false
+            view.addSubview(blurEffectView.contentView)
+         
+
             
         } else {
             view.backgroundColor = .white
@@ -119,16 +126,27 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         view.addSubview(cancelButton)
         cancelButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-        cancelButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        cancelButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
         cancelButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        view.addSubview(searchBar)
+        searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -230).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
         view.addSubview(searchTableView)
-        searchTableView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: 8).isActive = true
+        searchTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         searchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         searchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        searchTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        searchTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        searchTableView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: 8).isActive = true
+        searchTableView.bottomAnchor.constraint(equalTo: searchBar.topAnchor, constant: -8).isActive = true
         
     }
     
     
+    @objc func cancelButtonPressed(){
+        print("CancelTapped")
+        searchViewModel.cancelSearchView()
+    }
 }

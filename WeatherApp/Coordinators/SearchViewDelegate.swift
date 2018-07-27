@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol OpenSearchDelegate: CoordinatorDelegate {
-    func openSearch()
+protocol SearchViewDelegate: CoordinatorDelegate {
+    func OpenSearchView()
 }

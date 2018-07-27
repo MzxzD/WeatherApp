@@ -7,8 +7,6 @@ import RealmSwift
 class HomeViewModel {
     
     var WeatherInformation = Weather()
-    var successDownloadTime: Date?
-    var coordinates: (laditude: String, longitude: String)?
     var cityName: String? = ""
     var dataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
@@ -16,7 +14,9 @@ class HomeViewModel {
     var geoDownloadTrigger = PublishSubject<Bool>()
     var darkSkyDownloadTrigger = PublishSubject<Bool>()
     var darkServise = DarkSkyService()
-    var homeCoordinatorDelegate: OpenSearchDelegate?
+    var searchCoordinatorDelegate: SearchViewDelegate?
+    var settingsCoordinatorDelegate: SettingsViewDelegate?
+    var cityCoordinates: CityCoordinates!
     //    var realmServise = RealmSerivce()
     
     
@@ -24,18 +24,21 @@ class HomeViewModel {
         
         let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
             self.loaderControll.onNext(true)
-            return GeoNamesService().fetchLatAndLogFromGeoNames()
+            return GeoNamesService().fetchLatAndLogFromGeoNames(querry: "Osijek")
         }
         
         return geoObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (geoData) in
+                print(geoData)
                 if geoData.errorMessage == nil{
                     self.WeatherInformation.cityName = geoData.data.cityname
-                    self.coordinates?.laditude = geoData.data.latitute!
-                    self.coordinates?.longitude = geoData.data.longitude!
-                    self.darkSkyDownloadTrigger.onNext(true)
+                    self.cityCoordinates = geoData.data
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                         self.darkSkyDownloadTrigger.onNext(true)
+                    }
+                   
                 } else {
                     self.errorOccured.onNext(true)
                 }
@@ -44,12 +47,12 @@ class HomeViewModel {
     }
     
     func initializeObservableDarkSkyService() -> Disposable{
-        let darkSkyObservable = self.darkServise.fetchWetherDataFromDarkSky()
-//        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
-////             self.loaderControll.onNext(true)
-//            print("triggered")
-//            return self.darkServise.fetchWetherDataFromDarkSky()
-//        }
+        
+        let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
+
+            print("triggered")
+            return self.darkServise.fetchWetherDataFromDarkSky(lat: self.cityCoordinates.latitute! , log: self.cityCoordinates.longitude!)
+        }
         
         return darkSkyObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -108,14 +111,20 @@ class HomeViewModel {
             })
     }
     func chechForNewWeatherInformation() {
-        print("chech")
-        self.darkSkyDownloadTrigger.onNext(true)
+        if WeatherInformation.time != 0{
+            return
+        }
+        self.geoDownloadTrigger.onNext(true)
         
     }
     
     func openSearchView() {
         print("funcInitiated")
-        self.homeCoordinatorDelegate?.openSearch()
+        self.searchCoordinatorDelegate?.OpenSearchView()
+    }
+    
+    func openSettingsView(){
+        self.settingsCoordinatorDelegate?.OpenSettingsView()
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  WeatherViewCellDelegate.swift
+//  SettingsViewDelegate.swift
 //  WeatherApp
 //
 //  Created by Mateo Došlić on 27/07/2018.
@@ -7,9 +7,7 @@
 //
 
 import Foundation
-import UIKit
 
-protocol WeatherViewCellDelegate: class {
-    func didPressButton(_ sender: CityViewCell)
+protocol SettingsViewDelegate: CoordinatorDelegate {
+    func OpenSettingsView()
 }
-

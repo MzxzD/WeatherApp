@@ -18,20 +18,7 @@ class HomeViewController: UIViewController {
         
         
     }()
-    
-    
-    
-    
-    @objc func searchTapped() {
-        print("butonTapped")
-        homeViewModel.openSearchView()
-    }
-    
-    
-    
-    
-    
-    
+
     
     let customFont: UIFont = {
         let font = UIFont(name: "GothamRounded-Light", size: 50)
@@ -197,6 +184,7 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(#imageLiteral(resourceName: "settings_icon"), for: .normal)
+        button.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
         return button
     }()
     
@@ -260,10 +248,10 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         print("viewloaded")
-        //        initializeSplashScreen()
+        initializeSplashScreen()
         initializeDataObservable()
         initializeError()
-        //        homeViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
+        homeViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
         homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
         
         
@@ -271,7 +259,10 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         print("viewAppeared")
-        homeViewModel.chechForNewWeatherInformation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.homeViewModel.chechForNewWeatherInformation()
+        }
+        
         
         
     }
@@ -316,7 +307,7 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [unowned self] (event) in
                 
                 if event {
-                    
+                    self.splashScreen.removeFromSuperview()
                     self.setupView()
                 }
             })
@@ -425,11 +416,22 @@ class HomeViewController: UIViewController {
         minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
         maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
         weatherLabel.text = WeatherInfo.summary
+        cityLabel.text = WeatherInfo.cityName
         
         
     }
     
     
+    
+    @objc func searchTapped() {
+        print("butonTapped")
+        homeViewModel.openSearchView()
+    }
+    
+    
+    @objc func settingsTapped(){
+        homeViewModel.openSettingsView()
+    }
     
 }
 
