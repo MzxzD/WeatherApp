@@ -16,6 +16,7 @@ class HomeViewModel {
     var geoDownloadTrigger = PublishSubject<Bool>()
     var darkSkyDownloadTrigger = PublishSubject<Bool>()
     var darkServise = DarkSkyService()
+    var homeCoordinatorDelegate: OpenSearchDelegate?
     //    var realmServise = RealmSerivce()
     
     
@@ -110,6 +111,11 @@ class HomeViewModel {
         print("chech")
         self.darkSkyDownloadTrigger.onNext(true)
         
+    }
+    
+    func openSearchView() {
+        print("funcInitiated")
+        self.homeCoordinatorDelegate?.openSearch()
     }
     
 }

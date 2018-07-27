@@ -7,7 +7,31 @@ class HomeViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     var alert = UIAlertController()
-    var homeViewModel = HomeViewModel()
+    var homeViewModel: HomeViewModel!
+    
+    
+    let haxButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 100, height: 50))
+        button.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
+        button.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
+        return button
+        
+        
+    }()
+    
+    
+    
+    
+    @objc func searchTapped() {
+        print("butonTapped")
+        homeViewModel.openSearchView()
+    }
+    
+    
+    
+    
+    
+    
     
     let customFont: UIFont = {
         let font = UIFont(name: "GothamRounded-Light", size: 50)
@@ -305,7 +329,7 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = WeatherInfo.backgroundColor
         
-        
+       
         view.addSubview(weatherHeaderImage)
         weatherHeaderImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         weatherHeaderImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -326,6 +350,7 @@ class HomeViewController: UIViewController {
         
         
         weatherInfoView.addSubview(temperatureLabel)
+        weatherInfoView.addSubview(haxButton)
         temperatureLabel.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
         temperatureLabel.centerYAnchor.constraint(equalTo: weatherInfoView.topAnchor, constant: 150).isActive = true
         temperatureLabel.font = customFont
