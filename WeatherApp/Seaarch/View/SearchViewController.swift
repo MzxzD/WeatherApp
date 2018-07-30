@@ -11,12 +11,13 @@ import Alamofire
 import AlamofireImage
 import RxSwift
 
-class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     let disposeBag = DisposeBag()
     var searchViewModel: SearchViewModel!
     var alert = UIAlertController()
      let cellIdentifier = "WeatherViewCell"
+    let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     
     
     let cancelButton: UIButton = {
@@ -60,11 +61,14 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initializeDataObservable()
         view.backgroundColor = .gray
         self.setupView()
+        searchViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
         searchTableView.register(CityViewCell.self, forCellReuseIdentifier: cellIdentifier)
         searchTableView.dataSource = self
         searchTableView.delegate = self
+        searchBar.delegate = self
         searchBar.becomeFirstResponder()
         
     }
@@ -77,7 +81,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return searchViewModel.cityCoordinates.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,9 +92,10 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
             return UITableViewCell()
             
         }
+        let cityData = searchViewModel.cityCoordinates[indexPath.row]
         print(cell)
-        cell.cityLabel.text = "London"
-        cell.cityLetterLabel.text = "L"
+        cell.cityLabel.text = cityData.cityname
+        cell.cityLetterLabel.text = String(describing: cityData.cityname!.first!)
         
         return  cell
     }
@@ -101,6 +106,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchViewModel.citySelected(selectedCity: indexPath.row)
     }
     
 
@@ -149,4 +155,64 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         print("CancelTapped")
         searchViewModel.cancelSearchView()
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        if (searchBar.text == ""){
+//            // ERROR!
+//        }
+        searchViewModel.querry = searchBar.text
+        searchViewModel.geoDownloadTrigger.onNext(true)
+    }
+    
+    func initializeDataObservable(){
+        print("DataIsReadyObserver")
+        let observer = searchViewModel.dataIsReady
+        observer
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                
+                if event {
+                    self.loadingIndicator.stopAnimating()
+                    self.searchTableView.reloadData()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func innitializeLoaderObservable() {
+        let loadingObserver = searchViewModel.loaderControll
+        loadingObserver.asObservable()
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                
+                if (event) {
+                    self.loadingIndicator.rightAnchor.constraint(equalTo: self.cancelButton.leftAnchor, constant: 8).isActive = true
+                    self.loadingIndicator.color = UIColor.white
+                    self.view.addSubview(self.loadingIndicator)
+                    self.loadingIndicator.startAnimating()
+                } else{
+                    self.loadingIndicator.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    
+    func initializeError() {
+        let errorObserver = searchViewModel.errorOccured
+        errorObserver
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (event) in
+                if event {
+                    self.loadingIndicator.stopAnimating()
+                    downloadError(viewToPresent: self)
+                } else {
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }

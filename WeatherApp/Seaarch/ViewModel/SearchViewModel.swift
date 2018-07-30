@@ -26,11 +26,12 @@ class SearchViewModel {
     var cityCoordinates: [CityCoordinates] = []
     var querry: String!
     var searchCoordinatorDelegate: DissmissViewDelegate?
+    var homeViewModel = HomeViewModel()
     //    var realmServise = RealmSerivce()
     
     func initializeObservableGeoNames() -> Disposable{
-        
-        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
+
+        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<[CityCoordinates]>> in
             self.loaderControll.onNext(true)
             return GeoNamesService().fetchLatAndLogFromGeoNames(querry: self.querry)
         }
@@ -42,6 +43,7 @@ class SearchViewModel {
                 print(geoData)
                 if geoData.errorMessage == nil{
                     self.cityCoordinates = geoData.data
+
                     self.dataIsReady.onNext(true)
                 } else {
                     self.errorOccured.onNext(true)
@@ -64,6 +66,19 @@ class SearchViewModel {
     
     func citySelected(selectedCity: Int) {
         // Delegate for dissmiss and data passing back to HomeView
+        homeViewModel.WeatherInformation.cityName = self.cityCoordinates[selectedCity].cityname
+        homeViewModel.lat = self.cityCoordinates[selectedCity].latitute!
+        homeViewModel.log = self.cityCoordinates[selectedCity].longitude!
+//        homeViewModel.darkSkyDownloadTrigger.onNext(true)
+        // DODATI LOADER I KADA ZAVRŠI:
+        // self.searchCoordinatorDelegate?.dissmissView()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.searchCoordinatorDelegate?.dissmissView()
+        }
+        
+        
+        
     }
     
 }

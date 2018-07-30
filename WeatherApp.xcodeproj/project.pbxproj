@@ -45,6 +45,7 @@
 		CFEFB952210B11D900CCA044 /* SearchViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFB951210B11D900CCA044 /* SearchViewDelegate.swift */; };
 		CFEFB956210B1A3C00CCA044 /* CityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFB955210B1A3C00CCA044 /* CityViewCell.swift */; };
 		CFEFB959210B1A5800CCA044 /* WeatherViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFB958210B1A5800CCA044 /* WeatherViewCellDelegate.swift */; };
+		CFEFEB38210EE8300055CEAF /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFEB37210EE8300055CEAF /* RealmService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		CFEFB951210B11D900CCA044 /* SearchViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewDelegate.swift; sourceTree = "<group>"; };
 		CFEFB955210B1A3C00CCA044 /* CityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewCell.swift; sourceTree = "<group>"; };
 		CFEFB958210B1A5800CCA044 /* WeatherViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewCellDelegate.swift; sourceTree = "<group>"; };
+		CFEFEB37210EE8300055CEAF /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				CF5775B921086847006A077F /* DarkSkyService.swift */,
 				CF5775BB21086880006A077F /* GeoNamesService.swift */,
+				CFEFEB37210EE8300055CEAF /* RealmService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF62A4BE210B5DEF00A9468B /* Bbox.swift in Sources */,
+				CFEFEB38210EE8300055CEAF /* RealmService.swift in Sources */,
 				CF62A4BD210B5DEF00A9468B /* Timezone.swift in Sources */,
 				CF7B2784210AF21000CFBE16 /* AppCoordinator.swift in Sources */,
 				CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */,

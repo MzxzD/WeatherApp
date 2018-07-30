@@ -251,9 +251,6 @@ class HomeViewController: UIViewController {
         initializeSplashScreen()
         initializeDataObservable()
         initializeError()
-        homeViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
-        homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
-        
         
     }
     
@@ -261,6 +258,8 @@ class HomeViewController: UIViewController {
         print("viewAppeared")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.homeViewModel.chechForNewWeatherInformation()
+            self.getNewValues()
+            self.setupView()
         }
         
         
@@ -301,6 +300,7 @@ class HomeViewController: UIViewController {
     func initializeDataObservable(){
         print("DataIsReadyObserver")
         let observer = homeViewModel.dataIsReady
+        homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
         observer
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
@@ -421,7 +421,27 @@ class HomeViewController: UIViewController {
         
     }
     
-    
+    func getNewValues(){
+        let WeatherInfo = homeViewModel.WeatherInformation
+//        pressureIndicator.text = ""
+//        windSpeed.text = ""
+//        rainChance.text = ""
+//        temperatureLabel.text = ""
+//        minTemperature.text = ""
+//        maxTemperature.text = ""
+//        weatherLabel.text = ""
+//        cityLabel.text = ""
+        
+        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+        windSpeed.text = "\( WeatherInfo.windSpeed)mph"
+        rainChance.text = "\(WeatherInfo.humidity)%"
+        temperatureLabel.text = "\((WeatherInfo.temperature))°"
+        minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
+        maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
+        weatherLabel.text = WeatherInfo.summary
+        cityLabel.text = WeatherInfo.cityName
+        
+    }
     
     @objc func searchTapped() {
         print("butonTapped")

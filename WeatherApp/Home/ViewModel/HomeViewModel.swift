@@ -19,39 +19,15 @@ class HomeViewModel {
     var cityCoordinates: CityCoordinates!
     //    var realmServise = RealmSerivce()
     
-    
-    func initializeObservableGeoNames() -> Disposable{
-        
-        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
-            self.loaderControll.onNext(true)
-            return GeoNamesService().fetchLatAndLogFromGeoNames(querry: "Osijek")
-        }
-        
-        return geoObservable
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (geoData) in
-                print(geoData)
-                if geoData.errorMessage == nil{
-                    self.WeatherInformation.cityName = geoData.data.cityname
-                    self.cityCoordinates = geoData.data
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                         self.darkSkyDownloadTrigger.onNext(true)
-                    }
-                   
-                } else {
-                    self.errorOccured.onNext(true)
-                }
-            })
-        
-    }
+    var lat = "45.554962"
+    var log = "18.695514"
     
     func initializeObservableDarkSkyService() -> Disposable{
         
         let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
 
             print("triggered")
-            return self.darkServise.fetchWetherDataFromDarkSky(lat: self.cityCoordinates.latitute! , log: self.cityCoordinates.longitude!)
+            return self.darkServise.fetchWetherDataFromDarkSky(lat: self.lat, log: self.log)
         }
         
         return darkSkyObservable
@@ -114,7 +90,8 @@ class HomeViewModel {
         if WeatherInformation.time != 0{
             return
         }
-        self.geoDownloadTrigger.onNext(true)
+//        self.geoDownloadTrigger.onNext(true)
+        self.darkSkyDownloadTrigger.onNext(true)
         
     }
     

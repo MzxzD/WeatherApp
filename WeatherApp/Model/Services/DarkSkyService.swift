@@ -7,8 +7,7 @@ import RxAlamofire
 
 class DarkSkyService{
     let APIKey = "1b709f4ac6e851d85e8c6f53cf56c58c"
-//   let lat = "45.554962"
-//    let log = "18.695514"
+
     
     
     func fetchWetherDataFromDarkSky(lat: String, log: String) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> {
