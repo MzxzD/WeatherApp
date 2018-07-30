@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 import RealmSwift
+import Realm
 
 class SearchViewModel {
     
@@ -27,7 +28,7 @@ class SearchViewModel {
     var querry: String!
     var searchCoordinatorDelegate: DissmissViewDelegate?
     var homeViewModel = HomeViewModel()
-    //    var realmServise = RealmSerivce()
+    var realmServise = RealmSerivce()
     
     func initializeObservableGeoNames() -> Disposable{
 
@@ -65,20 +66,21 @@ class SearchViewModel {
     
     
     func citySelected(selectedCity: Int) {
-        // Delegate for dissmiss and data passing back to HomeView
-        homeViewModel.WeatherInformation.cityName = self.cityCoordinates[selectedCity].cityname
-        homeViewModel.lat = self.cityCoordinates[selectedCity].latitute!
-        homeViewModel.log = self.cityCoordinates[selectedCity].longitude!
-//        homeViewModel.darkSkyDownloadTrigger.onNext(true)
-        // DODATI LOADER I KADA ZAVRŠI:
-        // self.searchCoordinatorDelegate?.dissmissView()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.searchCoordinatorDelegate?.dissmissView()
+
+        let citySelectedData = CityCoordinates(value: self.cityCoordinates[selectedCity])
+        if (realmServise.realm.objects(CityCoordinates.self).filter("cityname=%@", citySelectedData.cityname!) == citySelectedData ) {
+            if ( self.realmServise.delete(object: citySelectedData) ){}
+            else {
+                errorOccured.onNext(true)
+            }
+        } else {
+            if ( self.realmServise.create(object: citySelectedData) ) {}
+            else {
+                errorOccured.onNext(true)
+            }
         }
-        
-        
-        
+            self.searchCoordinatorDelegate?.dissmissView()
     }
+
     
 }

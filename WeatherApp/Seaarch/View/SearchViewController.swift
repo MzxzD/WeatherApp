@@ -25,9 +25,10 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         button.setTitle("X", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.clear, for: .normal)
         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
+    
     }()
     
     var searchTableView: UITableView = {
@@ -37,6 +38,8 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         view.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
 //        view.backgroundView = blurEffectView
+        view.separatorColor = .clear
+        view.separatorStyle = .none
         view.backgroundColor = .gray
         return view
     }()

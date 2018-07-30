@@ -11,23 +11,30 @@ class HomeViewModel {
     var dataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
     var errorOccured = PublishSubject<Bool>()
-    var geoDownloadTrigger = PublishSubject<Bool>()
     var darkSkyDownloadTrigger = PublishSubject<Bool>()
     var darkServise = DarkSkyService()
     var searchCoordinatorDelegate: SearchViewDelegate?
     var settingsCoordinatorDelegate: SettingsViewDelegate?
-    var cityCoordinates: CityCoordinates!
-    //    var realmServise = RealmSerivce()
+    var cityLocation: CityCoordinates?
+    var realmServise = RealmSerivce()
     
-    var lat = "45.554962"
-    var log = "18.695514"
+
     
     func initializeObservableDarkSkyService() -> Disposable{
         
         let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
-
-            print("triggered")
-            return self.darkServise.fetchWetherDataFromDarkSky(lat: self.lat, log: self.log)
+            
+            if ( self.realmServise.realm.objects(CityCoordinates.self).isEmpty == true) {
+                let lat = "45.554962"
+                let log = "18.695514"
+                self.WeatherInformation.cityName = "Osijek"
+                     return self.darkServise.fetchWetherDataFromDarkSky(lat: lat, log: log)
+                
+            } else {
+                let cityToPassToDark = self.realmServise.realm.objects(CityCoordinates.self).last
+                self.WeatherInformation.cityName = cityToPassToDark?.cityname
+                return self.darkServise.fetchWetherDataFromDarkSky(lat: (cityToPassToDark?.latitute)!, log: (cityToPassToDark?.longitude)!)
+            }
         }
         
         return darkSkyObservable
@@ -41,6 +48,7 @@ class HomeViewModel {
                 self.WeatherInformation.temperature = Int((darkSkyData.data.currently?.temperature)!)
                 self.WeatherInformation.windSpeed = (darkSkyData.data.currently?.windSpeed)!
                 print("saving data")
+                
                 let weatherImageTuple: (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) = (self.WeatherInformation.icon?.values())!
                 self.WeatherInformation.bodyImage = weatherImageTuple.bodyWeatherImage
                 self.WeatherInformation.headerImage = weatherImageTuple.headerWeatherImaage
@@ -80,6 +88,7 @@ class HomeViewModel {
                 if darkSkyData.errorMessage == nil {
                     print("huh")
                     self.dataIsReady.onNext(true)
+                    print(self.WeatherInformation)
                     
                 } else{
                     self.errorOccured.onNext(true)
@@ -87,10 +96,9 @@ class HomeViewModel {
             })
     }
     func chechForNewWeatherInformation() {
-        if WeatherInformation.time != 0{
-            return
-        }
-//        self.geoDownloadTrigger.onNext(true)
+//        if WeatherInformation.time != 0{
+//            return
+//        }
         self.darkSkyDownloadTrigger.onNext(true)
         
     }

@@ -24,7 +24,7 @@ class SettingsCoordinator: Coordinator {
     
     func start() {
         controller.settingsViewModel.settingsCoordinatorDelegate = self
-        print(self.presenter.present(controller, animated: true))
+        print(self.presenter.present(controller, animated: false))
     }
     
     

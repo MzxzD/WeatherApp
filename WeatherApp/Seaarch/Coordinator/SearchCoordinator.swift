@@ -25,7 +25,7 @@ class SearchCoordinator: Coordinator {
     
     func start() {
         controller.searchViewModel.searchCoordinatorDelegate = self
-        print(self.presenter.present(controller, animated: true))
+        print(self.presenter.present(controller, animated: false))
     }
     
     

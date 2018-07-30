@@ -10,13 +10,14 @@ class HomeViewController: UIViewController {
     var homeViewModel: HomeViewModel!
     
     
-    let haxButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 50, y: 50, width: 100, height: 50))
-        button.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
+    let searchButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor(red:0, green:0, blue:0, alpha: 0)
         button.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         return button
         
-        
+
     }()
 
     
@@ -188,22 +189,29 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    var searchBar: UISearchBar = {
-        let searchBar = UISearchBar ()
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.barTintColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 1)
-        searchBar.layer.cornerRadius = 18
-        searchBar.clipsToBounds = true
-        
-        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
-        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-        
-        searchTextField.layer.cornerRadius = 15
-        searchTextField.textAlignment = NSTextAlignment.left
-        searchTextField.leftView = nil
-        searchTextField.placeholder = "Search"
-
-        return searchBar
+    var searchBarView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 18
+        view.clipsToBounds = true
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    var searchImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "search_icon")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    var searchLabel: UILabel = {
+        let search = UILabel()
+        search.translatesAutoresizingMaskIntoConstraints = false
+        search.text = "Search"
+        search.textColor = UIColor.lightGray
+        return search
     }()
     
     var stackViewMinMaxTemperature: UIStackView = {
@@ -251,19 +259,13 @@ class HomeViewController: UIViewController {
         initializeSplashScreen()
         initializeDataObservable()
         initializeError()
+        setupView()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("viewAppeared")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.homeViewModel.chechForNewWeatherInformation()
-            self.getNewValues()
-            self.setupView()
-        }
-        
-        
-        
     }
     
     func initializeSplashScreen() {
@@ -307,25 +309,21 @@ class HomeViewController: UIViewController {
             .subscribe(onNext: { [unowned self] (event) in
                 
                 if event {
-                    self.splashScreen.removeFromSuperview()
-                    self.setupView()
+                    print("READY!")
+//                    self.splashScreen.removeFromSuperview()
+                    self.getNewValues()
+                   
                 }
             })
             .disposed(by: disposeBag)
     }
     
     func setupView(){
-        let WeatherInfo = homeViewModel.WeatherInformation
-        
-        
-        view.backgroundColor = WeatherInfo.backgroundColor
-        
-       
+
         view.addSubview(weatherHeaderImage)
         weatherHeaderImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         weatherHeaderImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         weatherHeaderImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        weatherHeaderImage.image = WeatherInfo.headerImage
         
         view.addSubview(weatherBodyImage)
         weatherBodyImage.topAnchor.constraint(equalTo: weatherHeaderImage.bottomAnchor).isActive = true
@@ -333,15 +331,13 @@ class HomeViewController: UIViewController {
         weatherBodyImage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         weatherBodyImage.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         weatherBodyImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7).isActive = true
-        weatherBodyImage.image = WeatherInfo.bodyImage
-        
         
         view.addSubview(weatherInfoView)
         weatherInfoView.frame = self.view.bounds
         
         
         weatherInfoView.addSubview(temperatureLabel)
-        weatherInfoView.addSubview(haxButton)
+        weatherInfoView.addSubview(searchButton)
         temperatureLabel.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
         temperatureLabel.centerYAnchor.constraint(equalTo: weatherInfoView.topAnchor, constant: 150).isActive = true
         temperatureLabel.font = customFont
@@ -362,8 +358,6 @@ class HomeViewController: UIViewController {
         stackViewMinMaxTemperature.addArrangedSubview(minTemperature)
         stackViewMinMaxTemperature.addArrangedSubview(maxTemperature)
         
-        
-        
         weatherInfoView.addSubview(stackViewLowHighTemperature)
         stackViewLowHighTemperature.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewLowHighTemperature.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
@@ -375,7 +369,6 @@ class HomeViewController: UIViewController {
         weatherInfoView.addSubview(stackViewRainWindPressureImages)
         stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
-        //        stackViewRainWindPressureImages.topAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
         stackViewRainWindPressureImages.heightAnchor.constraint(equalToConstant: 70).isActive = true
         stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
@@ -395,43 +388,53 @@ class HomeViewController: UIViewController {
         separatorLine.topAnchor.constraint(equalTo: stackViewMinMaxTemperature.topAnchor).isActive = true
         separatorLine.bottomAnchor.constraint(equalTo: stackViewLowHighTemperature.bottomAnchor).isActive = true
         
+        searchBarView.addSubview(searchLabel)
+        searchLabel.leadingAnchor.constraint(equalTo: searchBarView.leadingAnchor, constant: 12).isActive = true
+        searchLabel.topAnchor.constraint(equalTo: searchBarView.topAnchor).isActive = true
+        searchLabel.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+        
+        searchBarView.addSubview(searchImageView)
+        searchImageView.trailingAnchor.constraint(equalTo: searchBarView.trailingAnchor, constant: -8).isActive = true
+        searchImageView.topAnchor.constraint(equalTo: searchBarView.topAnchor).isActive = true
+        searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+        
+        weatherInfoView.addSubview(searchBarView)
+        searchBarView.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 8).isActive = true
+        searchBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
+        searchBarView.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor, constant: 8).isActive = true
+        searchBarView.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -8).isActive = true
+        searchBarView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
-        weatherInfoView.addSubview(searchBar)
-        searchBar.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 15).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: weatherInfoView.bottomAnchor, constant: -20).isActive = true
-        searchBar.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor).isActive = true
-        searchBar.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -15).isActive = true
+        searchBarView.addSubview(searchButton)
+        searchButton.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 8).isActive = true
+        searchButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
+        searchButton.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor, constant: 8).isActive = true
+        searchButton.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -8).isActive = true
+        searchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        searchBarView.addSubview(searchLabel)
+        searchLabel.leadingAnchor.constraint(equalTo: searchBarView.leadingAnchor, constant: 12).isActive = true
+        searchLabel.topAnchor.constraint(equalTo: searchBarView.topAnchor).isActive = true
+        searchLabel.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+        
+        searchBarView.addSubview(searchImageView)
+        searchImageView.trailingAnchor.constraint(equalTo: searchBarView.trailingAnchor, constant: -8).isActive = true
+        searchImageView.topAnchor.constraint(equalTo: searchBarView.topAnchor).isActive = true
+        searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+        
+        
+
         weatherInfoView.addSubview(settingsButton)
         settingsButton.centerXAnchor.constraint(equalTo: rainChance.centerXAnchor).isActive = true
-        settingsButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
+        settingsButton.centerYAnchor.constraint(equalTo: searchBarView.centerYAnchor).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        
-        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
-        windSpeed.text = "\( WeatherInfo.windSpeed)mph"
-        rainChance.text = "\(WeatherInfo.humidity)%"
-        temperatureLabel.text = "\((WeatherInfo.temperature))°"
-        minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
-        maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
-        weatherLabel.text = WeatherInfo.summary
-        cityLabel.text = WeatherInfo.cityName
-        
-        
+
     }
     
     func getNewValues(){
         let WeatherInfo = homeViewModel.WeatherInformation
-//        pressureIndicator.text = ""
-//        windSpeed.text = ""
-//        rainChance.text = ""
-//        temperatureLabel.text = ""
-//        minTemperature.text = ""
-//        maxTemperature.text = ""
-//        weatherLabel.text = ""
-//        cityLabel.text = ""
-        
         pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
         windSpeed.text = "\( WeatherInfo.windSpeed)mph"
         rainChance.text = "\(WeatherInfo.humidity)%"
@@ -440,6 +443,9 @@ class HomeViewController: UIViewController {
         maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
         weatherLabel.text = WeatherInfo.summary
         cityLabel.text = WeatherInfo.cityName
+        weatherHeaderImage.image = WeatherInfo.headerImage
+        weatherBodyImage.image = WeatherInfo.bodyImage
+        view.backgroundColor = WeatherInfo.backgroundColor
         
     }
     

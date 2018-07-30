@@ -29,7 +29,7 @@ class RealmSerivce {
     func delete<T: CityCoordinates>(object: T) -> Bool{
         do {
             try realm.write {
-                realm.delete(realm.objects(CityCoordinates.self).filter("title=%@", object.cityname!))
+                realm.delete(realm.objects(CityCoordinates.self).filter("cityname=%@", object.cityname!))
             }
             
         } catch {
@@ -38,7 +38,7 @@ class RealmSerivce {
         return true
     }
     
-    func getFavoriteData() -> (Observable<DataAndErrorWrapper<[CityCoordinates]>>){
+    func getCityLocations() -> (Observable<DataAndErrorWrapper<[CityCoordinates]>>){
         var cities: [CityCoordinates] = []
         let realmCities = self.realm.objects(CityCoordinates.self)
         for element in realmCities {
