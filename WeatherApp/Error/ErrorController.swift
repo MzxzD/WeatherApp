@@ -22,8 +22,8 @@ func errorOccured(value: Error){
     let alert = UIAlertController(title: "Whoops!", message: "Something went wrong, Error: \(value)", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Okay. :(", style: .default, handler: nil))
 }
-func errorOccured(value: String){
-    let alert = UIAlertController(title: "Whoops!", message: "Something went wrong, Error: \(value)", preferredStyle: .alert)
+func errorOccured(){
+    let alert = UIAlertController(title: "Whoops!", message: "Something went wrong", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "Okay. :(", style: .default, handler: nil))
 }
 

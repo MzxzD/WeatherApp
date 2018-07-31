@@ -16,15 +16,11 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor(red:0, green:0, blue:0, alpha: 0)
         button.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         return button
-        
-
     }()
-
     
     let customFont: UIFont = {
         let font = UIFont(name: "GothamRounded-Light", size: 50)
         return font!
-        
     }()
     
     var splashScreen : UIImageView = {
@@ -256,7 +252,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         print("viewloaded")
-//        initializeSplashScreen()
+        initializeSplashScreen()
         initializeDataObservable()
         initializeError()
         self.homeViewModel.initializeSettingsConfiguration()
@@ -270,7 +266,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("viewAppeared")
-            self.homeViewModel.chechForNewWeatherInformation()
+        self.homeViewModel.chechForNewWeatherInformation()
     }
     
     func initializeSplashScreen() {
@@ -288,7 +284,6 @@ class HomeViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    
     func initializeError() {
         let errorObserver = homeViewModel.errorOccured
         errorObserver
@@ -296,8 +291,7 @@ class HomeViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 if event {
-                    print("error")
-                    // ERROR OCCURED
+                    errorOccured()
                 }
             })
             .disposed(by: disposeBag)
@@ -315,10 +309,8 @@ class HomeViewController: UIViewController {
                 
                 if event {
                     print("READY!")
-//                    self.splashScreen.removeFromSuperview()
-//                    self.getNewValues()
+                    self.splashScreen.removeFromSuperview()
                     self.setupView()
-                   
                 }
             })
             .disposed(by: disposeBag)
@@ -327,7 +319,7 @@ class HomeViewController: UIViewController {
     func setupView(){
         
         let settingsConfiguration = homeViewModel.settingsConfiguration
-
+        
         view.addSubview(weatherHeaderImage)
         weatherHeaderImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         weatherHeaderImage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -384,11 +376,10 @@ class HomeViewController: UIViewController {
         rainImageView.isHidden = (settingsConfiguration?.humidityIsHidden)!
         
         
-       
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
         windImageView.isHidden = (settingsConfiguration?.windIsHidden)!
-    
-      
+        
+        
         stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
         pressureImageView.isHidden = (settingsConfiguration?.pressureIsHidden)!
         
@@ -398,18 +389,18 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressure.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressure.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
         
-
+        
         stackViewRainWindPressure.addArrangedSubview(rainChance)
         rainChance.isHidden = (settingsConfiguration?.humidityIsHidden)!
-    
-       
+        
+        
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
         windSpeed.isHidden = (settingsConfiguration?.windIsHidden)!
-    
+        
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
         pressureIndicator.isHidden = (settingsConfiguration?.pressureIsHidden)!
         
-    
+        
         weatherInfoView.addSubview(separatorLine)
         separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
         separatorLine.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
@@ -427,10 +418,10 @@ class HomeViewController: UIViewController {
         searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
         
         weatherInfoView.addSubview(searchBarView)
-        searchBarView.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 8).isActive = true
+        searchBarView.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 16).isActive = true
         searchBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
-        searchBarView.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 120).isActive = true
-        searchBarView.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor, constant: -8).isActive = true
+        searchBarView.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 60).isActive = true
+        searchBarView.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor, constant: -16).isActive = true
         searchBarView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
@@ -452,13 +443,12 @@ class HomeViewController: UIViewController {
         searchImageView.bottomAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
         
         
-
+        
         weatherInfoView.addSubview(settingsButton)
-//        settingsButton.centerXAnchor.constraint(equalTo: stackViewLowHighTemperature.centerXAnchor).isActive = true
-        settingsButton.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 50).isActive = true
+        settingsButton.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 16).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: searchBarView.centerYAnchor).isActive = true
-        settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        settingsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        settingsButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         
         
         let WeatherInfo = homeViewModel.WeatherInformation
@@ -479,7 +469,7 @@ class HomeViewController: UIViewController {
             minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
             maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
         }
-    
+        
         
         if (settingsConfiguration?.unit == UnitSystem.Metric.value){
             pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
@@ -491,10 +481,10 @@ class HomeViewController: UIViewController {
         }
         
         
-
+        
     }
     
-  
+    
     
     @objc func searchTapped() {
         print("butonTapped")

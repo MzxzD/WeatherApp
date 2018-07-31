@@ -3,7 +3,6 @@ import UIKit
 import RxSwift
 import RealmSwift
 
-
 class HomeViewModel {
     
     var WeatherInformation = Weather()
@@ -19,23 +18,24 @@ class HomeViewModel {
     var realmServise = RealmSerivce()
     var settingsConfiguration: Configuration!
     
-
+    
     func initializeSettingsConfiguration() {
-
+        
         if (realmServise.realm.objects(Configuration.self).isEmpty == true){
+            settingsConfiguration = Configuration()
             if (!realmServise.create(object: settingsConfiguration)){
                 errorOccured.onNext(true) }
         } else {
             if (settingsConfiguration == nil){
-             settingsConfiguration = realmServise.getSettingsFromRealm()
+                settingsConfiguration = realmServise.getSettingsFromRealm()
             } else {
                 if (  !realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsHidden, windBool: settingsConfiguration.windIsHidden, pressureBool: settingsConfiguration.pressureIsHidden) ) {
-                errorOccured.onNext(true)
+                    errorOccured.onNext(true)
                 }
             }
             
         }
-
+        
     }
     
     func initializeObservableDarkSkyService() -> Disposable{
@@ -46,7 +46,7 @@ class HomeViewModel {
                 let lat = "45.554962"
                 let log = "18.695514"
                 self.WeatherInformation.cityName = "Osijek"
-                     return self.darkServise.fetchWetherDataFromDarkSky(lat: lat, log: log)
+                return self.darkServise.fetchWetherDataFromDarkSky(lat: lat, log: log)
                 
             } else {
                 let cityToPassToDark = self.realmServise.realm.objects(CityCoordinates.self).last
@@ -66,9 +66,8 @@ class HomeViewModel {
                 self.WeatherInformation.summary = (darkSkyData.data.currently?.summary)!
                 self.WeatherInformation.temperature = Int((darkSkyData.data.currently?.temperature)!)
                 self.WeatherInformation.windSpeed = (darkSkyData.data.currently?.windSpeed)!
-                print("saving data")
-                
                 let weatherImageTuple: (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) = (self.WeatherInformation.icon?.values())!
+                print(weatherImageTuple)
                 self.WeatherInformation.bodyImage = weatherImageTuple.bodyWeatherImage
                 self.WeatherInformation.headerImage = weatherImageTuple.headerWeatherImaage
                 self.WeatherInformation.backgroundColor = weatherImageTuple.color
@@ -99,7 +98,7 @@ class HomeViewModel {
                         
                     }
                 }
-//                self.WeatherInformation = self.settingsConfiguration.values(weatherObject: self.WeatherInformation)
+                self.WeatherInformation = self.settingsConfiguration.values(weatherObject: self.WeatherInformation)
                 return (darkSkyData)
             })
             .subscribe(onNext: { (darkSkyData) in

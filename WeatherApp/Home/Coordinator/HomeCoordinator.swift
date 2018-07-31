@@ -13,6 +13,7 @@ class HomeCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: HomeViewController
+    var searchViewDelegate: SearchViewDelegate?
     
     init(presneter: UINavigationController){
         self.presenter = presneter
@@ -28,24 +29,24 @@ class HomeCoordinator: Coordinator {
         presenter.pushViewController(controller, animated: true)
     }
     
-    
 }
 
 extension HomeCoordinator: SearchViewDelegate {
-
-
+    func weatherDownloadTrigger() {
+        controller.homeViewModel.darkSkyDownloadTrigger.onNext(true)
+    }
+    
     func OpenSearchView() {
         print("here we go!")
         let searchCoordinator = SearchCoordinator(presneter: self.presenter)
         searchCoordinator.start()
+        searchCoordinator.searchViewDelegate = self
         self.addChildCoordinator(childCoordinator: searchCoordinator)
     }
     
     func viewHasFinished() {
-//        self.childCoordinator.removeAll()
-//        parentCoordinatorDelegate?.childHasFinished(coordinator: self)
+        self.childCoordinators.removeAll()
     }
-    
     
 }
 
@@ -54,6 +55,7 @@ extension HomeCoordinator: SettingsViewDelegate {
         print("here we go!")
         let settingsCoordinator = SettingsCoordinator(presneter: self.presenter)
         settingsCoordinator.start()
+        settingsCoordinator.searchViewDelegate = self
         self.addChildCoordinator(childCoordinator: settingsCoordinator)
     }
     

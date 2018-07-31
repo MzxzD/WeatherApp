@@ -12,11 +12,11 @@ import AlamofireImage
 import RxSwift
 
 class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-
+    
     let disposeBag = DisposeBag()
     var searchViewModel: SearchViewModel!
     var alert = UIAlertController()
-     let cellIdentifier = "WeatherViewCell"
+    let cellIdentifier = "WeatherViewCell"
     let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     
     
@@ -25,10 +25,10 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         button.setTitle("X", for: .normal)
-        button.setTitleColor(.clear, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         return button
-    
+        
     }()
     
     var searchTableView: UITableView = {
@@ -37,35 +37,30 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         view.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
-//        view.backgroundView = blurEffectView
         view.separatorColor = .clear
         view.separatorStyle = .none
-        view.backgroundColor = .gray
+        view.backgroundColor = .clear
         return view
     }()
-
+    
     var searchBar: UISearchBar = {
-        let searchBar = UISearchBar ()
+        let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.barTintColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 1)
-        searchBar.layer.cornerRadius = 18
+        searchBar.barTintColor = UIColor.white
+        searchBar.layer.cornerRadius = 20
         searchBar.clipsToBounds = true
-        
         let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
-        searchTextField.translatesAutoresizingMaskIntoConstraints = false
-        
-        searchTextField.layer.cornerRadius = 15
-        searchTextField.textAlignment = NSTextAlignment.left
         searchTextField.leftView = nil
         searchTextField.placeholder = "Search"
-        
+        searchTextField.rightView = UIImageView(image: UIImage(named: "search_icon"))
         return searchBar
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         initializeDataObservable()
-        view.backgroundColor = .gray
+        addBlurEffectToBackground()
         self.setupView()
         searchViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
         searchTableView.register(CityViewCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -76,7 +71,10 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
     }
     
-   
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -91,7 +89,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CityViewCell else
         {
-            errorOccured(value: "The dequeued cell is not an instance of PreviewDataTableViewCell.")
+            errorOccured()
             return UITableViewCell()
             
         }
@@ -103,7 +101,6 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         return  cell
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 35
     }
@@ -112,27 +109,16 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         searchViewModel.citySelected(selectedCity: indexPath.row)
     }
     
-
     
-    func setupView() {
-        
-
-        if !UIAccessibilityIsReduceTransparencyEnabled() {
-
-                let blurEffect = UIBlurEffect(style: .regular)
-                let blurEffectView = UIVisualEffectView(effect: blurEffect)
-                blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-                blurEffectView.frame = self.view.bounds
-                self.view.addSubview(blurEffectView)
-                blurEffectView.isHidden = false
-            view.addSubview(blurEffectView.contentView)
-         
-
-            
-        } else {
-            view.backgroundColor = .white
-        }
-        
+    func addBlurEffectToBackground(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+    }
+    
+    func setupView() {        
         view.addSubview(cancelButton)
         cancelButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         cancelButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
@@ -160,9 +146,6 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        if (searchBar.text == ""){
-//            // ERROR!
-//        }
         searchViewModel.querry = searchBar.text
         searchViewModel.geoDownloadTrigger.onNext(true)
     }

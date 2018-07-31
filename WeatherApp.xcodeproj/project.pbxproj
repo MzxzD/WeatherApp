@@ -256,6 +256,7 @@
 		CF8A635B2108558700215C97 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF5775B221085C2B006A077F /* StorryBoard */,
 				CFC8D7452109C6C7006A2145 /* Error */,
 				CFEFB957210B1A4000CCA044 /* WeatherCell */,
 				CF7B2782210AF1F900CFBE16 /* Coordinators */,
@@ -307,7 +308,6 @@
 			isa = PBXGroup;
 			children = (
 				CF7B2780210AF1A300CFBE16 /* ErrorController.swift */,
-				CF5775B221085C2B006A077F /* StorryBoard */,
 			);
 			path = Error;
 			sourceTree = "<group>";

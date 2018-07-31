@@ -14,6 +14,7 @@ class SearchCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: SearchViewController
+    var searchViewDelegate: SearchViewDelegate?
     
     init(presneter: UINavigationController){
         self.presenter = presneter
@@ -24,21 +25,23 @@ class SearchCoordinator: Coordinator {
     }
     
     func start() {
+        controller.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
         controller.searchViewModel.searchCoordinatorDelegate = self
-        print(self.presenter.present(controller, animated: false))
+        self.presenter.present(controller, animated: false)
     }
-    
     
 }
 
 extension SearchCoordinator: DissmissViewDelegate{
     
     func dissmissView() {
-        self.presenter.dismiss(animated: true, completion: nil)
+        self.presenter.dismiss(animated: true, completion: {
+            self.searchViewDelegate?.weatherDownloadTrigger()
+        })
     }
     
     func viewHasFinished() {
-        
+        childCoordinators.removeAll()
     }
     
     

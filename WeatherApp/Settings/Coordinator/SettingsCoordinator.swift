@@ -13,6 +13,7 @@ class SettingsCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: SettingsViewController
+    var searchViewDelegate: SearchViewDelegate?
     
     init(presneter: UINavigationController){
         self.presenter = presneter
@@ -23,21 +24,23 @@ class SettingsCoordinator: Coordinator {
     }
     
     func start() {
+        controller.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
         controller.settingsViewModel.settingsCoordinatorDelegate = self
         print(self.presenter.present(controller, animated: false))
     }
-    
     
 }
 
 extension SettingsCoordinator: DissmissViewDelegate{
     
     func dissmissView() {
-        self.presenter.dismiss(animated: true, completion: nil)
+        self.presenter.dismiss(animated: true, completion: {
+            self.searchViewDelegate?.weatherDownloadTrigger()
+        })
     }
     
     func viewHasFinished() {
-        
+        childCoordinators.removeAll()
     }
     
 }

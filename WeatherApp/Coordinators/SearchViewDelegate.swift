@@ -10,4 +10,5 @@ import Foundation
 
 protocol SearchViewDelegate: CoordinatorDelegate {
     func OpenSearchView()
+    func weatherDownloadTrigger()
 }
