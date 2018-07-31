@@ -17,20 +17,25 @@ class HomeViewModel {
     var settingsCoordinatorDelegate: SettingsViewDelegate?
     var cityLocation: CityCoordinates?
     var realmServise = RealmSerivce()
-    var settingsConfiguration = SettingsConfiguration()
+    var settingsConfiguration: Configuration!
     
 
     func initializeSettingsConfiguration() {
-        
-        if (realmServise.realm.objects(SettingsConfiguration.self).isEmpty == true){
+
+        if (realmServise.realm.objects(Configuration.self).isEmpty == true){
             if (!realmServise.create(object: settingsConfiguration)){
                 errorOccured.onNext(true) }
         } else {
-            if (!realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsShown, windBool: settingsConfiguration.windIsShown, pressureBool: settingsConfiguration.pressureIsShown)){
+            if (settingsConfiguration == nil){
+             settingsConfiguration = realmServise.getSettingsFromRealm()
+            } else {
+                if (  !realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsHidden, windBool: settingsConfiguration.windIsHidden, pressureBool: settingsConfiguration.pressureIsHidden) ) {
                 errorOccured.onNext(true)
+                }
             }
-            settingsConfiguration = realmServise.getSettingsFromRealm()
+            
         }
+
     }
     
     func initializeObservableDarkSkyService() -> Disposable{
@@ -67,7 +72,6 @@ class HomeViewModel {
                 self.WeatherInformation.bodyImage = weatherImageTuple.bodyWeatherImage
                 self.WeatherInformation.headerImage = weatherImageTuple.headerWeatherImaage
                 self.WeatherInformation.backgroundColor = weatherImageTuple.color
-                
                 let dailyArray = darkSkyData.data.daily?.data
                 var differenceInTime: Int!
                 var smallestDifferenceInTime: Int!
@@ -95,7 +99,7 @@ class HomeViewModel {
                         
                     }
                 }
-                
+//                self.WeatherInformation = self.settingsConfiguration.values(weatherObject: self.WeatherInformation)
                 return (darkSkyData)
             })
             .subscribe(onNext: { (darkSkyData) in
@@ -110,7 +114,6 @@ class HomeViewModel {
             })
     }
     func chechForNewWeatherInformation() {
-        initializeSettingsConfiguration()
         self.darkSkyDownloadTrigger.onNext(true)
         
     }

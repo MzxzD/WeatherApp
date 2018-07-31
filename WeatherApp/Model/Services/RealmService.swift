@@ -50,34 +50,34 @@ class RealmSerivce {
     
     // ADD FUNCTION FOR SETTINGS OBJECT THAT UPDATES AND CREATES
     
-    func chechForUpdateSettings(unit: UnitSystem, humidityBool: Bool, windBool: Bool, pressureBool: Bool) ->Bool{
+    func chechForUpdateSettings(unit: Bool, humidityBool: Bool, windBool: Bool, pressureBool: Bool) ->Bool{
         do{
-            let realmSettings = self.realm.objects(SettingsConfiguration.self).first
+            let realmSettings = self.realm.objects(Configuration.self).first
             try realm.write {
                 if (realmSettings?.unit != unit){
                     realmSettings?.unit = unit
                 }
-                if (realmSettings?.humidityIsShown != humidityBool){
-                    realmSettings?.humidityIsShown = humidityBool
+                if (realmSettings?.humidityIsHidden != humidityBool){
+                    realmSettings?.humidityIsHidden = humidityBool
                 }
-                if (realmSettings?.windIsShown != windBool){
-                    realmSettings?.windIsShown = windBool
+                if (realmSettings?.windIsHidden != windBool){
+                    realmSettings?.windIsHidden = windBool
                 }
-                if (realmSettings?.pressureIsShown != pressureBool){
-                    realmSettings?.pressureIsShown = pressureBool
+                if (realmSettings?.pressureIsHidden != pressureBool){
+                    realmSettings?.pressureIsHidden = pressureBool
                 }
             }
         }catch {
             return false
         }
-        
+
         return true
     }
-    
-    func getSettingsFromRealm() -> SettingsConfiguration{
-        let settings = self.realm.objects(SettingsConfiguration.self).first
+
+    func getSettingsFromRealm() -> Configuration{
+        let settings = self.realm.objects(Configuration.self).first
         return settings!
-        
+
     }
     
 }

@@ -256,14 +256,19 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         print("viewloaded")
-        initializeSplashScreen()
+//        initializeSplashScreen()
         initializeDataObservable()
         initializeError()
+        self.homeViewModel.initializeSettingsConfiguration()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupView()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         print("viewAppeared")
             self.homeViewModel.chechForNewWeatherInformation()
     }
@@ -311,7 +316,8 @@ class HomeViewController: UIViewController {
                 if event {
                     print("READY!")
 //                    self.splashScreen.removeFromSuperview()
-                    self.getNewValues()
+//                    self.getNewValues()
+                    self.setupView()
                    
                 }
             })
@@ -373,17 +379,18 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
         stackViewRainWindPressureImages.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        if( settingsConfiguration.humidityIsShown){
+        
         stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
-        }
+        rainImageView.isHidden = (settingsConfiguration?.humidityIsHidden)!
         
-        if ( settingsConfiguration.windIsShown){
+        
+       
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
-        }
-        
-        if ( settingsConfiguration.pressureIsShown ){
+        windImageView.isHidden = (settingsConfiguration?.windIsHidden)!
+    
+      
         stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
-        }
+        pressureImageView.isHidden = (settingsConfiguration?.pressureIsHidden)!
         
         
         weatherInfoView.addSubview(stackViewRainWindPressure)
@@ -391,18 +398,18 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressure.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressure.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
         
-        if( settingsConfiguration.humidityIsShown){
+
         stackViewRainWindPressure.addArrangedSubview(rainChance)
-        }
-        
-        if ( settingsConfiguration.windIsShown){
+        rainChance.isHidden = (settingsConfiguration?.humidityIsHidden)!
+    
+       
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
-        }
-        
-        if ( settingsConfiguration.pressureIsShown ){
+        windSpeed.isHidden = (settingsConfiguration?.windIsHidden)!
+    
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
-        }
+        pressureIndicator.isHidden = (settingsConfiguration?.pressureIsHidden)!
         
+    
         weatherInfoView.addSubview(separatorLine)
         separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
         separatorLine.centerXAnchor.constraint(equalTo: weatherInfoView.centerXAnchor).isActive = true
@@ -422,16 +429,16 @@ class HomeViewController: UIViewController {
         weatherInfoView.addSubview(searchBarView)
         searchBarView.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 8).isActive = true
         searchBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
-        searchBarView.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor, constant: 8).isActive = true
-        searchBarView.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -8).isActive = true
+        searchBarView.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 120).isActive = true
+        searchBarView.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor, constant: -8).isActive = true
         searchBarView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         
         searchBarView.addSubview(searchButton)
         searchButton.topAnchor.constraint(equalTo: stackViewRainWindPressure.bottomAnchor, constant: 8).isActive = true
         searchButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
-        searchButton.leadingAnchor.constraint(equalTo: rainChance.trailingAnchor, constant: 8).isActive = true
-        searchButton.trailingAnchor.constraint(equalTo: pressureIndicator.trailingAnchor, constant: -8).isActive = true
+        searchButton.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 120).isActive = true
+        searchButton.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor, constant: -8).isActive = true
         searchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         searchBarView.addSubview(searchLabel)
@@ -447,46 +454,47 @@ class HomeViewController: UIViewController {
         
 
         weatherInfoView.addSubview(settingsButton)
-        settingsButton.centerXAnchor.constraint(equalTo: rainChance.centerXAnchor).isActive = true
+//        settingsButton.centerXAnchor.constraint(equalTo: stackViewLowHighTemperature.centerXAnchor).isActive = true
+        settingsButton.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor, constant: 50).isActive = true
         settingsButton.centerYAnchor.constraint(equalTo: searchBarView.centerYAnchor).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-
-    }
-    
-    func getNewValues(){
+        
         
         let WeatherInfo = homeViewModel.WeatherInformation
-        let settingsCongihuration = homeViewModel.settingsConfiguration
         
         weatherLabel.text = WeatherInfo.summary
         cityLabel.text = WeatherInfo.cityName
         weatherHeaderImage.image = WeatherInfo.headerImage
         weatherBodyImage.image = WeatherInfo.bodyImage
         view.backgroundColor = WeatherInfo.backgroundColor
-         rainChance.text = "\(WeatherInfo.humidity)%"
-        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
-        
-        
-  
-        if (settingsCongihuration.unit.rawValue == "Imperial"){
-        windSpeed.text = "\( WeatherInfo.windSpeed)mph"
-        temperatureLabel.text = "\((WeatherInfo.temperature))°"
-        minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
-        maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
- }
-     
-
-        if (settingsCongihuration.unit.rawValue == "Metric"){
-        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
-        windSpeed.text = "\( WeatherInfo.windSpeed)km/h"
         rainChance.text = "\(WeatherInfo.humidity)%"
-        temperatureLabel.text = "\((WeatherInfo.temperature))°C"
-        minTemperature.text = "\( WeatherInfo.temperatureMin)°C"
-        maxTemperature.text = "\( WeatherInfo.temperatureMax)°C"
+        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+        
+        
+        
+        if (settingsConfiguration?.unit  == UnitSystem.Imperial.value ){
+            windSpeed.text = "\( WeatherInfo.windSpeed)mph"
+            temperatureLabel.text = "\((WeatherInfo.temperature))°"
+            minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
+            maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
+        }
+    
+        
+        if (settingsConfiguration?.unit == UnitSystem.Metric.value){
+            pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+            windSpeed.text = "\( WeatherInfo.windSpeed)km/h"
+            rainChance.text = "\(WeatherInfo.humidity)%"
+            temperatureLabel.text = "\((WeatherInfo.temperature))°C"
+            minTemperature.text = "\( WeatherInfo.temperatureMin)°C"
+            maxTemperature.text = "\( WeatherInfo.temperatureMax)°C"
         }
         
+        
+
     }
+    
+  
     
     @objc func searchTapped() {
         print("butonTapped")

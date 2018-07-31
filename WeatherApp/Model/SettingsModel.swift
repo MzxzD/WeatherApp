@@ -1,33 +1,44 @@
-import Realm
 import RealmSwift
+import Realm
 
 
-class SettingsConfiguration: Object {
-    var unit: UnitSystem = UnitSystem(rawValue: false)!
-    var humidityIsShown: Bool = true
-    var windIsShown: Bool = true
-    var pressureIsShown: Bool = true
+
+class Configuration: Object {
+    @objc dynamic var unit: Bool = false
+    @objc dynamic var humidityIsHidden: Bool = true
+    @objc dynamic var windIsHidden: Bool = true
+    @objc dynamic var pressureIsHidden: Bool = true
+    
+    func values(weatherObject: Weather) -> Weather {
+        switch unit {
+        case false :
+            var metricWeatherObject = weatherObject
+            metricWeatherObject.windSpeed = (metricWeatherObject.windSpeed * 1.609344).rounded()
+            metricWeatherObject.temperature = (Int((Float(metricWeatherObject.temperature) - 32) * (5/9)))
+            metricWeatherObject.temperatureMax = ((metricWeatherObject.temperatureMax - 32) * (5/9)).rounded()
+            metricWeatherObject.temperatureMin = ((metricWeatherObject.temperatureMin - 32) * (5/9)).rounded()
+            
+            return metricWeatherObject
+            
+        case true:
+            return weatherObject
+            
+        }
+    }
+    
 }
 
 
-enum UnitSystem: Bool {
-    case Metric = false
-    case Imperial = true
-    
-    func values(weatherObject: Weather) -> Weather {
+enum UnitSystem {
+    case Metric
+    case Imperial
+
+    var value: Bool{
         switch self {
         case .Metric:
-            var metricWeatherObject = weatherObject
-            metricWeatherObject.windSpeed = metricWeatherObject.windSpeed * 1.609344
-            metricWeatherObject.temperature = (metricWeatherObject.temperature - 32) * (5/9)
-            metricWeatherObject.temperatureMax = (metricWeatherObject.temperatureMax - 32) * (5/9)
-            metricWeatherObject.temperatureMin = (metricWeatherObject.temperatureMin - 32) * (5/9)
-            
-            return metricWeatherObject
-        
+            return false
         case .Imperial:
-            return weatherObject
-            
+            return true
         }
     }
 }
