@@ -61,8 +61,8 @@ class SettingsViewModel {
     
    func citySelected(selectedCty: Int){
     let citySelected = CityCoordinates(value: Cities[selectedCty])
-    self.realmServise.delete(object: Cities[selectedCty])
-    self.realmServise.create(object: citySelected)
+    if (self.realmServise.delete(object: Cities[selectedCty])){} else { errorOccurd.onNext(true) }
+    if (self.realmServise.create(object: citySelected)){} else {errorOccurd.onNext(true) }
     self.dissmissTheView()
     }
     

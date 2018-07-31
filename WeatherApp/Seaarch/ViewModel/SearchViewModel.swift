@@ -66,20 +66,25 @@ class SearchViewModel {
     
     
     func citySelected(selectedCity: Int) {
-
+        
         let citySelectedData = CityCoordinates(value: self.cityCoordinates[selectedCity])
-        if (realmServise.realm.objects(CityCoordinates.self).filter("cityname=%@", citySelectedData.cityname!) == citySelectedData ) {
-            if ( self.realmServise.delete(object: citySelectedData) ){}
-            else {
-                errorOccured.onNext(true)
+        
+        let realmCityObject = realmServise.realm.objects(CityCoordinates.self).filter("cityname=%@", citySelectedData.cityname!)
+        for element in realmCityObject {
+            if ( element.cityname == citySelectedData.cityname) {
+                if ( self.realmServise.delete(object: citySelectedData) ){}
+                else {
+                    errorOccured.onNext(true)
+                }
             }
-        } else {
-            if ( self.realmServise.create(object: citySelectedData) ) {}
-            else {
-                errorOccured.onNext(true)
-            }
+            
         }
-            self.searchCoordinatorDelegate?.dissmissView()
+        if ( self.realmServise.create(object: citySelectedData) ) {}
+        else {
+            errorOccured.onNext(true)
+        }
+        
+        self.searchCoordinatorDelegate?.dissmissView()
     }
 
     

@@ -15,7 +15,7 @@ class RealmSerivce {
     var realm = try! Realm()
     let errorOccured = PublishSubject<Bool>()
     
-    func create<T : CityCoordinates >(object: T) -> Bool {
+    func create<T: Object >(object: T) -> Bool {
         do{
             try realm.write {
                 realm.add(object)
@@ -49,5 +49,35 @@ class RealmSerivce {
     
     
     // ADD FUNCTION FOR SETTINGS OBJECT THAT UPDATES AND CREATES
+    
+    func chechForUpdateSettings(unit: UnitSystem, humidityBool: Bool, windBool: Bool, pressureBool: Bool) ->Bool{
+        do{
+            let realmSettings = self.realm.objects(SettingsConfiguration.self).first
+            try realm.write {
+                if (realmSettings?.unit != unit){
+                    realmSettings?.unit = unit
+                }
+                if (realmSettings?.humidityIsShown != humidityBool){
+                    realmSettings?.humidityIsShown = humidityBool
+                }
+                if (realmSettings?.windIsShown != windBool){
+                    realmSettings?.windIsShown = windBool
+                }
+                if (realmSettings?.pressureIsShown != pressureBool){
+                    realmSettings?.pressureIsShown = pressureBool
+                }
+            }
+        }catch {
+            return false
+        }
+        
+        return true
+    }
+    
+    func getSettingsFromRealm() -> SettingsConfiguration{
+        let settings = self.realm.objects(SettingsConfiguration.self).first
+        return settings!
+        
+    }
     
 }

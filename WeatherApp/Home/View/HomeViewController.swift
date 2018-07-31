@@ -319,6 +319,8 @@ class HomeViewController: UIViewController {
     }
     
     func setupView(){
+        
+        let settingsConfiguration = homeViewModel.settingsConfiguration
 
         view.addSubview(weatherHeaderImage)
         weatherHeaderImage.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -370,17 +372,36 @@ class HomeViewController: UIViewController {
         stackViewRainWindPressureImages.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressureImages.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
         stackViewRainWindPressureImages.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        if( settingsConfiguration.humidityIsShown){
         stackViewRainWindPressureImages.addArrangedSubview(rainImageView)
+        }
+        
+        if ( settingsConfiguration.windIsShown){
         stackViewRainWindPressureImages.addArrangedSubview(windImageView)
+        }
+        
+        if ( settingsConfiguration.pressureIsShown ){
         stackViewRainWindPressureImages.addArrangedSubview(pressureImageView)
+        }
+        
         
         weatherInfoView.addSubview(stackViewRainWindPressure)
         stackViewRainWindPressure.topAnchor.constraint(equalTo: stackViewRainWindPressureImages.bottomAnchor).isActive = true
         stackViewRainWindPressure.leadingAnchor.constraint(equalTo: weatherInfoView.leadingAnchor).isActive = true
         stackViewRainWindPressure.trailingAnchor.constraint(equalTo: weatherInfoView.trailingAnchor).isActive = true
+        
+        if( settingsConfiguration.humidityIsShown){
         stackViewRainWindPressure.addArrangedSubview(rainChance)
+        }
+        
+        if ( settingsConfiguration.windIsShown){
         stackViewRainWindPressure.addArrangedSubview(windSpeed)
+        }
+        
+        if ( settingsConfiguration.pressureIsShown ){
         stackViewRainWindPressure.addArrangedSubview(pressureIndicator)
+        }
         
         weatherInfoView.addSubview(separatorLine)
         separatorLine.widthAnchor.constraint(equalToConstant: 2).isActive = true
@@ -434,18 +455,36 @@ class HomeViewController: UIViewController {
     }
     
     func getNewValues(){
+        
         let WeatherInfo = homeViewModel.WeatherInformation
-        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
-        windSpeed.text = "\( WeatherInfo.windSpeed)mph"
-        rainChance.text = "\(WeatherInfo.humidity)%"
-        temperatureLabel.text = "\((WeatherInfo.temperature))°"
-        minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
-        maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
+        let settingsCongihuration = homeViewModel.settingsConfiguration
+        
         weatherLabel.text = WeatherInfo.summary
         cityLabel.text = WeatherInfo.cityName
         weatherHeaderImage.image = WeatherInfo.headerImage
         weatherBodyImage.image = WeatherInfo.bodyImage
         view.backgroundColor = WeatherInfo.backgroundColor
+         rainChance.text = "\(WeatherInfo.humidity)%"
+        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+        
+        
+  
+        if (settingsCongihuration.unit.rawValue == "Imperial"){
+        windSpeed.text = "\( WeatherInfo.windSpeed)mph"
+        temperatureLabel.text = "\((WeatherInfo.temperature))°"
+        minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
+        maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
+ }
+     
+
+        if (settingsCongihuration.unit.rawValue == "Metric"){
+        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+        windSpeed.text = "\( WeatherInfo.windSpeed)km/h"
+        rainChance.text = "\(WeatherInfo.humidity)%"
+        temperatureLabel.text = "\((WeatherInfo.temperature))°C"
+        minTemperature.text = "\( WeatherInfo.temperatureMin)°C"
+        maxTemperature.text = "\( WeatherInfo.temperatureMax)°C"
+        }
         
     }
     

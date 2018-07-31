@@ -17,8 +17,21 @@ class HomeViewModel {
     var settingsCoordinatorDelegate: SettingsViewDelegate?
     var cityLocation: CityCoordinates?
     var realmServise = RealmSerivce()
+    var settingsConfiguration = SettingsConfiguration()
     
 
+    func initializeSettingsConfiguration() {
+        
+        if (realmServise.realm.objects(SettingsConfiguration.self).isEmpty == true){
+            if (!realmServise.create(object: settingsConfiguration)){
+                errorOccured.onNext(true) }
+        } else {
+            if (!realmServise.chechForUpdateSettings(unit: settingsConfiguration.unit, humidityBool: settingsConfiguration.humidityIsShown, windBool: settingsConfiguration.windIsShown, pressureBool: settingsConfiguration.pressureIsShown)){
+                errorOccured.onNext(true)
+            }
+            settingsConfiguration = realmServise.getSettingsFromRealm()
+        }
+    }
     
     func initializeObservableDarkSkyService() -> Disposable{
         
@@ -36,6 +49,7 @@ class HomeViewModel {
                 return self.darkServise.fetchWetherDataFromDarkSky(lat: (cityToPassToDark?.latitute)!, log: (cityToPassToDark?.longitude)!)
             }
         }
+        
         
         return darkSkyObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -96,9 +110,7 @@ class HomeViewModel {
             })
     }
     func chechForNewWeatherInformation() {
-//        if WeatherInformation.time != 0{
-//            return
-//        }
+        initializeSettingsConfiguration()
         self.darkSkyDownloadTrigger.onNext(true)
         
     }
