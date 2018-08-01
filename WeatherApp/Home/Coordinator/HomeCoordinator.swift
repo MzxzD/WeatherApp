@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class HomeCoordinator: Coordinator {
     var presenter: UINavigationController
@@ -32,12 +33,13 @@ class HomeCoordinator: Coordinator {
 }
 
 extension HomeCoordinator: SearchViewDelegate {
-    func weatherDownloadTrigger() {
+    
+    func weatherDownloadTrigger() -> PublishSubject<Bool> {
         controller.homeViewModel.darkSkyDownloadTrigger.onNext(true)
+        return controller.homeViewModel.loaderControll
     }
     
-    func OpenSearchView() {
-        print("here we go!")
+    func openSearchView() {
         let searchCoordinator = SearchCoordinator(presneter: self.presenter)
         searchCoordinator.start()
         searchCoordinator.searchViewDelegate = self
@@ -51,7 +53,11 @@ extension HomeCoordinator: SearchViewDelegate {
 }
 
 extension HomeCoordinator: SettingsViewDelegate {
-    func OpenSettingsView() {
+    func weatherDownloadTrigger() {
+        
+    }
+    
+    func openSettingsView() {
         print("here we go!")
         let settingsCoordinator = SettingsCoordinator(presneter: self.presenter)
         settingsCoordinator.start()

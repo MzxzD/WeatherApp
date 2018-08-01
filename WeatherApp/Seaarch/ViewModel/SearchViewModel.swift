@@ -16,16 +16,25 @@ class SearchViewModel {
     
     var cityName: String? = ""
     var dataIsReady = PublishSubject<Bool>()
+    var homeViewDataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
     var errorOccured = PublishSubject<Bool>()
     var geoDownloadTrigger = PublishSubject<Bool>()
-    var darkServise = GeoNamesService()
     var homeCoordinatorDelegate: SettingsViewDelegate?
     var cityCoordinates: [CityCoordinates] = []
     var querry: String!
     var searchCoordinatorDelegate: DissmissViewDelegate?
-    var homeViewModel = HomeViewModel()
     var realmServise = RealmSerivce()
+    
+    init() {
+
+    }
+    
+    init(dataIsReady: PublishSubject<Bool>) {
+        self.dataIsReady = dataIsReady
+    }
+    
+    
     
     func initializeObservableGeoNames() -> Disposable{
         
@@ -38,8 +47,7 @@ class SearchViewModel {
         return geoObservable
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (geoData) in
-                print(geoData)
+            .subscribe(onNext: { [unowned self] (geoData) in
                 if geoData.errorMessage == nil{
                     self.cityCoordinates = geoData.data
                     
@@ -52,18 +60,16 @@ class SearchViewModel {
     
     func searchInitiated(querry: String) {
         self.querry = querry
-        print("chech")
         self.geoDownloadTrigger.onNext(true)
         
     }
     
     func cancelSearchView() {
-        print("canceling....")
         self.searchCoordinatorDelegate?.dissmissView()
     }
     
     func citySelected(selectedCity: Int) {
-        
+    
         let citySelectedData = CityCoordinates(value: self.cityCoordinates[selectedCity])
         
         let realmCityObject = realmServise.realm.objects(CityCoordinates.self).filter("cityname=%@", citySelectedData.cityname!)
@@ -76,13 +82,15 @@ class SearchViewModel {
             }
             
         }
-        if ( self.realmServise.create(object: citySelectedData) ) {}
-        else {
+        if ( !self.realmServise.create(object: citySelectedData) ){
             errorOccured.onNext(true)
         }
+//        self.searchCoordinatorDelegate?.dissmissView()
+        print(self.homeViewDataIsReady)
+        self.homeViewDataIsReady = (self.searchCoordinatorDelegate?.startDownloadFromDarkSky())!
+        print(self.homeViewDataIsReady)
+        loaderControll.onNext(true)
         
-        self.searchCoordinatorDelegate?.dissmissView()
     }
-    
-    
 }
+

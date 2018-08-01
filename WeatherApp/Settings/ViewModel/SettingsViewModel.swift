@@ -14,7 +14,7 @@ import RealmSwift
 
 class SettingsViewModel {
     
-    var Cities: [CityCoordinates] = []
+    var cities: [CityCoordinates] = []
     var realmServise = RealmSerivce()
     var dataIsReady = PublishSubject<Bool>()
     var realmTrigger = PublishSubject<Bool>()
@@ -31,10 +31,10 @@ class SettingsViewModel {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] (event) in
                 if event {
-                    self.Cities.removeAll()
+                    self.cities.removeAll()
                     let realmCities = self.realmServise.realm.objects(CityCoordinates.self)
                     for element in realmCities {
-                        self.Cities.append(element)
+                        self.cities.append(element)
                         
                     }
                     self.dataIsReady.onNext(true)
@@ -99,9 +99,9 @@ class SettingsViewModel {
     }
     
     func deleteACity(selectedCity: Int) {
-        let cityToRemove = Cities[selectedCity]
+        let cityToRemove = cities[selectedCity]
         if ( self.realmServise.delete(object: cityToRemove)) {
-            self.Cities.remove(at: selectedCity)
+            self.cities.remove(at: selectedCity)
             self.dataIsReady.onNext(true)
         } else {
             errorOccurd.onNext(true)
@@ -109,8 +109,8 @@ class SettingsViewModel {
     }
     
     func citySelected(selectedCty: Int){
-        let citySelected = CityCoordinates(value: Cities[selectedCty])
-        if (self.realmServise.delete(object: Cities[selectedCty])){} else { errorOccurd.onNext(true) }
+        let citySelected = CityCoordinates(value: cities[selectedCty])
+        if (self.realmServise.delete(object: cities[selectedCty])){} else { errorOccurd.onNext(true) }
         if (self.realmServise.create(object: citySelected)){} else {errorOccurd.onNext(true) }
         self.dissmissTheView()
     }

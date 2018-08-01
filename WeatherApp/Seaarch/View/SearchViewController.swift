@@ -60,6 +60,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         initializeDataObservable()
+        innitializeLoaderObservable()
         addBlurEffectToBackground()
         self.setupView()
         searchViewModel.initializeObservableGeoNames().disposed(by: disposeBag)
@@ -94,7 +95,6 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
             
         }
         let cityData = searchViewModel.cityCoordinates[indexPath.row]
-        print(cell)
         cell.cityLabel.text = cityData.cityname
         cell.cityLetterLabel.text = String(describing: cityData.cityname!.first!)
         
@@ -151,7 +151,6 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     
     func initializeDataObservable(){
-        print("DataIsReadyObserver")
         let observer = searchViewModel.dataIsReady
         observer
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -174,7 +173,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
             .subscribe(onNext: { [unowned self] (event) in
                 
                 if (event) {
-                    self.loadingIndicator.rightAnchor.constraint(equalTo: self.cancelButton.leftAnchor, constant: 8).isActive = true
+                    self.loadingIndicator.center = self.view.center
                     self.loadingIndicator.color = UIColor.white
                     self.view.addSubview(self.loadingIndicator)
                     self.loadingIndicator.startAnimating()
@@ -183,8 +182,32 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 }
             })
             .disposed(by: disposeBag)
+        
+        
+        let homeViewDownloadloadingObserver = searchViewModel.homeViewDataIsReady
+        homeViewDownloadloadingObserver.asObservable()
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] (event) in
+                
+                if (event) {
+                    print("WEEEE")
+                     self.loadingIndicator.stopAnimating()
+                    self.searchViewModel.cancelSearchView()
+                } else{
+                   print("loaderobservernada")
+                    self.loadingIndicator.center = self.view.center
+                    self.loadingIndicator.color = UIColor.white
+                    self.view.addSubview(self.loadingIndicator)
+                    self.loadingIndicator.startAnimating()
+                    
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
+
     
     func initializeError() {
         let errorObserver = searchViewModel.errorOccured

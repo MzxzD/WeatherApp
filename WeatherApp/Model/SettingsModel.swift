@@ -5,9 +5,9 @@ import Realm
 
 class Configuration: Object {
     @objc dynamic var unit: Bool = false
-    @objc dynamic var humidityIsHidden: Bool = true
-    @objc dynamic var windIsHidden: Bool = true
-    @objc dynamic var pressureIsHidden: Bool = true
+    @objc dynamic var humidityIsHidden: Bool = false
+    @objc dynamic var windIsHidden: Bool = false
+    @objc dynamic var pressureIsHidden: Bool = false
     
     func values(weatherObject: Weather) -> Weather {
         switch unit {

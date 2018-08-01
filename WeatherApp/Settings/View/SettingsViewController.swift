@@ -39,7 +39,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         view.separatorEffect = UIVibrancyEffect(blurEffect: blurEffect )
-        //        view.backgroundView = blurEffectView
         view.separatorColor = .clear
         view.separatorStyle = .none
         view.backgroundColor = .clear
@@ -111,9 +110,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return label
     }()
     
-    
-    
-    
     var conditionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -143,8 +139,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return button
         
     }()
-    
-    
     
     var windImageView: UIImageView = {
         let imageView = UIImageView()
@@ -237,7 +231,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingsViewModel.Cities.count
+        return settingsViewModel.cities.count
         
     }
     
@@ -249,7 +243,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return UITableViewCell()
             
         }
-        let cityData = settingsViewModel.Cities[indexPath.row]
+        let cityData = settingsViewModel.cities[indexPath.row]
         cell.cityLabel.text = cityData.cityname
         print(cityData)
         cell.cityLetterLabel.text = String(describing: cityData.cityname!.first!)
@@ -431,7 +425,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         rainButon.isSelected = !settingsViewModel.toggleHumidity()
         self.setupView()
     }
-    
     
     @objc func doneButtonPressed() {
         self.settingsViewModel.dissmissTheView()

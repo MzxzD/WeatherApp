@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class SettingsCoordinator: Coordinator {
     var presenter: UINavigationController
@@ -32,11 +33,15 @@ class SettingsCoordinator: Coordinator {
 }
 
 extension SettingsCoordinator: DissmissViewDelegate{
+    func startDownloadFromDarkSky() -> (PublishSubject<Bool>) {
+        return  (self.searchViewDelegate?.weatherDownloadTrigger())!
+    }
+    
+  
+    
     
     func dissmissView() {
-        self.presenter.dismiss(animated: true, completion: {
-            self.searchViewDelegate?.weatherDownloadTrigger()
-        })
+        self.presenter.dismiss(animated: true)
     }
     
     func viewHasFinished() {

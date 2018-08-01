@@ -15,12 +15,8 @@
 		CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BB21086880006A077F /* GeoNamesService.swift */; };
 		CF5775C021086C78006A077F /* DarkSkyJSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775BF21086C78006A077F /* DarkSkyJSONModel.swift */; };
 		CF5775C2210883EE006A077F /* DataAndErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5775C1210883EE006A077F /* DataAndErrorWrapper.swift */; };
-		CF62A4BA210B5DEF00A9468B /* AlternateNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B4210B5DEE00A9468B /* AlternateNames.swift */; };
 		CF62A4BB210B5DEF00A9468B /* Geonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B5210B5DEE00A9468B /* Geonames.swift */; };
-		CF62A4BC210B5DEF00A9468B /* AdminCodes1.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B6210B5DEE00A9468B /* AdminCodes1.swift */; };
-		CF62A4BD210B5DEF00A9468B /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B7210B5DEF00A9468B /* Timezone.swift */; };
-		CF62A4BE210B5DEF00A9468B /* Bbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B8210B5DEF00A9468B /* Bbox.swift */; };
-		CF62A4BF210B5DEF00A9468B /* Json4Swift_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B9210B5DEF00A9468B /* Json4Swift_Base.swift */; };
+		CF62A4BF210B5DEF00A9468B /* GeoNameBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4B9210B5DEF00A9468B /* GeoNameBase.swift */; };
 		CF62A4C1210B6B1F00A9468B /* DissmissViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4C0210B6B1F00A9468B /* DissmissViewDelegate.swift */; };
 		CF62A4C7210B715900A9468B /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4C6210B715900A9468B /* SettingsCoordinator.swift */; };
 		CF62A4C9210B717B00A9468B /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF62A4C8210B717B00A9468B /* SettingsViewModel.swift */; };
@@ -38,8 +34,6 @@
 		CF8A63622108558700215C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63602108558700215C97 /* Main.storyboard */; };
 		CF8A63642108558700215C97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63632108558700215C97 /* Assets.xcassets */; };
 		CF8A63672108558700215C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63652108558700215C97 /* LaunchScreen.storyboard */; };
-		CFA2AE1B2109FCDA00510A75 /* GothamRounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */; };
-		CFA2AE1C2109FCDA00510A75 /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */; };
 		CFB4D8EF2110374E001D90BD /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB4D8EE2110374E001D90BD /* SettingsModel.swift */; };
 		CFEFB94C210AFEC600CCA044 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFB94B210AFEC600CCA044 /* SearchViewController.swift */; };
 		CFEFB94E210AFF9900CCA044 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEFB94D210AFF9900CCA044 /* SearchViewModel.swift */; };
@@ -61,12 +55,8 @@
 		CF5775BB21086880006A077F /* GeoNamesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesService.swift; sourceTree = "<group>"; };
 		CF5775BF21086C78006A077F /* DarkSkyJSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkyJSONModel.swift; sourceTree = "<group>"; };
 		CF5775C1210883EE006A077F /* DataAndErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAndErrorWrapper.swift; sourceTree = "<group>"; };
-		CF62A4B4210B5DEE00A9468B /* AlternateNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternateNames.swift; sourceTree = "<group>"; };
 		CF62A4B5210B5DEE00A9468B /* Geonames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geonames.swift; sourceTree = "<group>"; };
-		CF62A4B6210B5DEE00A9468B /* AdminCodes1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminCodes1.swift; sourceTree = "<group>"; };
-		CF62A4B7210B5DEF00A9468B /* Timezone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
-		CF62A4B8210B5DEF00A9468B /* Bbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bbox.swift; sourceTree = "<group>"; };
-		CF62A4B9210B5DEF00A9468B /* Json4Swift_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Json4Swift_Base.swift; sourceTree = "<group>"; };
+		CF62A4B9210B5DEF00A9468B /* GeoNameBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoNameBase.swift; sourceTree = "<group>"; };
 		CF62A4C0210B6B1F00A9468B /* DissmissViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DissmissViewDelegate.swift; sourceTree = "<group>"; };
 		CF62A4C6210B715900A9468B /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		CF62A4C8210B717B00A9468B /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -86,8 +76,6 @@
 		CF8A63632108558700215C97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF8A63662108558700215C97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF8A63682108558700215C97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GothamRounded-Light.otf"; path = "../../../../../FONTS/GothamRounded-Light.otf"; sourceTree = "<group>"; };
-		CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GothamRounded-Book.otf"; path = "../../../../../FONTS/GothamRounded-Book.otf"; sourceTree = "<group>"; };
 		CFB4D8EE2110374E001D90BD /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		CFEFB94B210AFEC600CCA044 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		CFEFB94D210AFF9900CCA044 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -141,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				CF827AF221119838006FE974 /* newFonts */,
-				CFA2AE162109FA5100510A75 /* fonts */,
 				CF8A63632108558700215C97 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -175,12 +162,8 @@
 		CF62A4B3210B5DDA00A9468B /* GeoJSONResponse */ = {
 			isa = PBXGroup;
 			children = (
-				CF62A4B6210B5DEE00A9468B /* AdminCodes1.swift */,
-				CF62A4B4210B5DEE00A9468B /* AlternateNames.swift */,
-				CF62A4B8210B5DEF00A9468B /* Bbox.swift */,
 				CF62A4B5210B5DEE00A9468B /* Geonames.swift */,
-				CF62A4B9210B5DEF00A9468B /* Json4Swift_Base.swift */,
-				CF62A4B7210B5DEF00A9468B /* Timezone.swift */,
+				CF62A4B9210B5DEF00A9468B /* GeoNameBase.swift */,
 			);
 			path = GeoJSONResponse;
 			sourceTree = "<group>";
@@ -309,15 +292,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		CFA2AE162109FA5100510A75 /* fonts */ = {
-			isa = PBXGroup;
-			children = (
-				CFA2AE1A2109FCDA00510A75 /* GothamRounded-Book.otf */,
-				CFA2AE192109FCDA00510A75 /* GothamRounded-Light.otf */,
-			);
-			path = fonts;
-			sourceTree = "<group>";
-		};
 		CFC8D7452109C6C7006A2145 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,10 +405,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF827AF521119845006FE974 /* GothamRounded-Book.otf in Resources */,
-				CFA2AE1B2109FCDA00510A75 /* GothamRounded-Light.otf in Resources */,
 				CF8A63672108558700215C97 /* LaunchScreen.storyboard in Resources */,
 				CF827AF621119845006FE974 /* GothamRounded-Light.otf in Resources */,
-				CFA2AE1C2109FCDA00510A75 /* GothamRounded-Book.otf in Resources */,
 				CF8A63642108558700215C97 /* Assets.xcassets in Resources */,
 				CF8A63622108558700215C97 /* Main.storyboard in Resources */,
 			);
@@ -500,10 +472,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF62A4BE210B5DEF00A9468B /* Bbox.swift in Sources */,
 				CFEFEB38210EE8300055CEAF /* RealmService.swift in Sources */,
 				CFB4D8EF2110374E001D90BD /* SettingsModel.swift in Sources */,
-				CF62A4BD210B5DEF00A9468B /* Timezone.swift in Sources */,
 				CF7B2784210AF21000CFBE16 /* AppCoordinator.swift in Sources */,
 				CF5775BC21086880006A077F /* GeoNamesService.swift in Sources */,
 				CF7B278A210AF4AF00CFBE16 /* HomeCoordinator.swift in Sources */,
@@ -518,14 +488,12 @@
 				CFEFB94C210AFEC600CCA044 /* SearchViewController.swift in Sources */,
 				CF62A4C1210B6B1F00A9468B /* DissmissViewDelegate.swift in Sources */,
 				CF62A4C7210B715900A9468B /* SettingsCoordinator.swift in Sources */,
-				CF62A4BC210B5DEF00A9468B /* AdminCodes1.swift in Sources */,
 				CF7B2788210AF2E300CFBE16 /* CoordinatorDelegate.swift in Sources */,
 				CF5775BA21086847006A077F /* DarkSkyService.swift in Sources */,
 				CF62A4CB210B71A100A9468B /* SettingsViewController.swift in Sources */,
 				CF5775C2210883EE006A077F /* DataAndErrorWrapper.swift in Sources */,
-				CF62A4BA210B5DEF00A9468B /* AlternateNames.swift in Sources */,
 				CF62A4BB210B5DEF00A9468B /* Geonames.swift in Sources */,
-				CF62A4BF210B5DEF00A9468B /* Json4Swift_Base.swift in Sources */,
+				CF62A4BF210B5DEF00A9468B /* GeoNameBase.swift in Sources */,
 				CFEFB94E210AFF9900CCA044 /* SearchViewModel.swift in Sources */,
 				CF56E69C21088D3C006D6B97 /* WeatherData.swift in Sources */,
 				CFEFB959210B1A5800CCA044 /* WeatherViewCellDelegate.swift in Sources */,

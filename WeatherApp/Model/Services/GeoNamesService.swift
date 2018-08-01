@@ -21,10 +21,10 @@ class GeoNamesService{
                 let decoder = JSONDecoder()
                 
                 let responseJSON = response
-                print("prijeFO")
+              
                 do {
-                    let data = try decoder.decode(Json4Swift_Base.self, from: responseJSON)
-                    print("DO")
+                    let data = try decoder.decode(GeoNameBase.self, from: responseJSON)
+         
                     let geoData  = data.geonames
                     for geoArrayData: Geonames in geoData! {
                         let temporarySavingArray = CityCoordinates()
@@ -38,7 +38,7 @@ class GeoNamesService{
                   
                 }catch let error
                 {
-                    print("Catch")
+            
                     return DataAndErrorWrapper(data: self.cityLocaton, errorMessage: error.localizedDescription)
                 }
                 return DataAndErrorWrapper(data: self.cityLocaton, errorMessage: nil)

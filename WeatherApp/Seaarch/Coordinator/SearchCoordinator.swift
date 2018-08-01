@@ -9,6 +9,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class SearchCoordinator: Coordinator {
     var presenter: UINavigationController
@@ -33,13 +34,22 @@ class SearchCoordinator: Coordinator {
 }
 
 extension SearchCoordinator: DissmissViewDelegate{
+
     
-    func dissmissView() {
-        self.presenter.dismiss(animated: true, completion: {
-            self.searchViewDelegate?.weatherDownloadTrigger()
-        })
+    func startDownloadFromDarkSky() -> PublishSubject<Bool> {
+        return (self.searchViewDelegate?.weatherDownloadTrigger())!
     }
     
+    
+    func dissmissView() {
+        
+        
+        
+        self.presenter.dismiss(animated: true)
+    }
+//    , completion: {
+//    self.searchViewDelegate?.weatherDownloadTrigger()
+//    }
     func viewHasFinished() {
         childCoordinators.removeAll()
     }

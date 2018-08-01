@@ -3,8 +3,8 @@ import UIKit
 
 
 struct Weather  {
-    var cityName: String? = nil
-    var icon: icon?
+    var cityName: String!
+    var icon: icon!
     var humidity: Double = 0
     var pressure: Int = 0
     var temperature: Int = 0
@@ -13,9 +13,9 @@ struct Weather  {
     var summary: String = ""
     var temperatureMin: Double = 0
     var temperatureMax: Double = 0
-    var backgroundColor: UIColor?
-    var headerImage: UIImage?
-    var bodyImage: UIImage?
+    var backgroundColor: UIColor!
+    var headerImage: UIImage!
+    var bodyImage: UIImage!
     
 }
 

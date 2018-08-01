@@ -11,8 +11,6 @@ class DarkSkyService{
     
     
     func fetchWetherDataFromDarkSky(lat: String, log: String) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> {
-//        func fetchWetherDataFromDarkSky() -> Observable<DataAndErrorWrapper<DarkSkyResponse>> {
-            print("fetchWeather")
          let url = URL(string: "https://api.darksky.net/forecast/\(APIKey)/\(lat),\(log)")
         
         return RxAlamofire
@@ -20,7 +18,6 @@ class DarkSkyService{
         
             .map({ (response) -> DataAndErrorWrapper<DarkSkyResponse> in
                 let decoder = JSONDecoder()
-                print(response)
                 var darkSkyResponse: DarkSkyResponse = DarkSkyResponse(currently: nil, daily: nil)
                 let responseJSON = response
                 do {

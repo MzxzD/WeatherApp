@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol SearchViewDelegate: CoordinatorDelegate {
-    func OpenSearchView()
-    func weatherDownloadTrigger()
+    func openSearchView()
+    func weatherDownloadTrigger() -> PublishSubject<Bool>
 }

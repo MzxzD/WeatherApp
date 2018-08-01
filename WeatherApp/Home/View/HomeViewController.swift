@@ -23,13 +23,6 @@ class HomeViewController: UIViewController {
         return font!
     }()
     
-    var splashScreen : UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "splashScreen")
-        return image
-    }()
-    
-    
     var weatherInfoView: UIView = {
         let view = UIView()
         return view
@@ -252,10 +245,10 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         print("viewloaded")
-        initializeSplashScreen()
+        homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
         initializeDataObservable()
         initializeError()
-        self.homeViewModel.initializeSettingsConfiguration()
+        homeViewModel.initializeSettingsConfiguration()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -269,20 +262,6 @@ class HomeViewController: UIViewController {
         self.homeViewModel.chechForNewWeatherInformation()
     }
     
-    func initializeSplashScreen() {
-        let loadingObserver = homeViewModel.loaderControll
-        loadingObserver.asObservable()
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] (event) in
-                
-                if (event) {
-                    self.view.addSubview(self.splashScreen)
-                    self.splashScreen.frame = self.view.bounds
-                }
-            })
-            .disposed(by: disposeBag)
-    }
     
     func initializeError() {
         let errorObserver = homeViewModel.errorOccured
@@ -299,17 +278,14 @@ class HomeViewController: UIViewController {
     
     
     func initializeDataObservable(){
-        print("DataIsReadyObserver")
         let observer = homeViewModel.dataIsReady
-        homeViewModel.initializeObservableDarkSkyService().disposed(by: disposeBag)
+       
         observer
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] (event) in
                 
                 if event {
-                    print("READY!")
-                    self.splashScreen.removeFromSuperview()
                     self.setupView()
                 }
             })
@@ -451,40 +427,36 @@ class HomeViewController: UIViewController {
         settingsButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         
         
-        let WeatherInfo = homeViewModel.WeatherInformation
+        let weatherInfo = homeViewModel.weatherInformation
         
-        weatherLabel.text = WeatherInfo.summary
-        cityLabel.text = WeatherInfo.cityName
-        weatherHeaderImage.image = WeatherInfo.headerImage
-        weatherBodyImage.image = WeatherInfo.bodyImage
-        view.backgroundColor = WeatherInfo.backgroundColor
-        rainChance.text = "\(WeatherInfo.humidity)%"
-        pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
+        weatherLabel.text = weatherInfo.summary
+        cityLabel.text = weatherInfo.cityName
+        weatherHeaderImage.image = weatherInfo.headerImage
+        weatherBodyImage.image = weatherInfo.bodyImage
+        view.backgroundColor = weatherInfo.backgroundColor
+        rainChance.text = "\(weatherInfo.humidity)%"
+        pressureIndicator.text = "\((weatherInfo.pressure))hpa"
         
         
         
         if (settingsConfiguration?.unit  == UnitSystem.Imperial.value ){
-            windSpeed.text = "\( WeatherInfo.windSpeed)mph"
-            temperatureLabel.text = "\((WeatherInfo.temperature))°"
-            minTemperature.text = "\( WeatherInfo.temperatureMin)°F"
-            maxTemperature.text = "\( WeatherInfo.temperatureMax)°F"
+            windSpeed.text = "\( weatherInfo.windSpeed)mph"
+            temperatureLabel.text = "\((weatherInfo.temperature))°"
+            minTemperature.text = "\( weatherInfo.temperatureMin)°F"
+            maxTemperature.text = "\( weatherInfo.temperatureMax)°F"
         }
         
         
         if (settingsConfiguration?.unit == UnitSystem.Metric.value){
-            pressureIndicator.text = "\((WeatherInfo.pressure))hpa"
-            windSpeed.text = "\( WeatherInfo.windSpeed)km/h"
-            rainChance.text = "\(WeatherInfo.humidity)%"
-            temperatureLabel.text = "\((WeatherInfo.temperature))°C"
-            minTemperature.text = "\( WeatherInfo.temperatureMin)°C"
-            maxTemperature.text = "\( WeatherInfo.temperatureMax)°C"
+            pressureIndicator.text = "\((weatherInfo.pressure))hpa"
+            windSpeed.text = "\( weatherInfo.windSpeed)km/h"
+            rainChance.text = "\(weatherInfo.humidity)%"
+            temperatureLabel.text = "\((weatherInfo.temperature))°C"
+            minTemperature.text = "\( weatherInfo.temperatureMin)°C"
+            maxTemperature.text = "\( weatherInfo.temperatureMax)°C"
         }
         
-        
-        
     }
-    
-    
     
     @objc func searchTapped() {
         print("butonTapped")
