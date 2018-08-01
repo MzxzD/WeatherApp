@@ -31,6 +31,8 @@
 		CF7B2786210AF2A800CFBE16 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7B2785210AF2A800CFBE16 /* Coordinator.swift */; };
 		CF7B2788210AF2E300CFBE16 /* CoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7B2787210AF2E300CFBE16 /* CoordinatorDelegate.swift */; };
 		CF7B278A210AF4AF00CFBE16 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7B2789210AF4AF00CFBE16 /* HomeCoordinator.swift */; };
+		CF827AF521119845006FE974 /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF827AF321119845006FE974 /* GothamRounded-Book.otf */; };
+		CF827AF621119845006FE974 /* GothamRounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF827AF421119845006FE974 /* GothamRounded-Light.otf */; };
 		CF8A635D2108558700215C97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8A635C2108558700215C97 /* AppDelegate.swift */; };
 		CF8A635F2108558700215C97 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8A635E2108558700215C97 /* HomeViewController.swift */; };
 		CF8A63622108558700215C97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8A63602108558700215C97 /* Main.storyboard */; };
@@ -75,6 +77,8 @@
 		CF7B2785210AF2A800CFBE16 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		CF7B2787210AF2E300CFBE16 /* CoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorDelegate.swift; sourceTree = "<group>"; };
 		CF7B2789210AF4AF00CFBE16 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		CF827AF321119845006FE974 /* GothamRounded-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-Book.otf"; sourceTree = "<group>"; };
+		CF827AF421119845006FE974 /* GothamRounded-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-Light.otf"; sourceTree = "<group>"; };
 		CF8A63592108558700215C97 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF8A635C2108558700215C97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF8A635E2108558700215C97 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 		CF5775B121085C11006A077F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF827AF221119838006FE974 /* newFonts */,
 				CFA2AE162109FA5100510A75 /* fonts */,
 				CF8A63632108558700215C97 /* Assets.xcassets */,
 			);
@@ -233,6 +238,15 @@
 				CF7B2789210AF4AF00CFBE16 /* HomeCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		CF827AF221119838006FE974 /* newFonts */ = {
+			isa = PBXGroup;
+			children = (
+				CF827AF321119845006FE974 /* GothamRounded-Book.otf */,
+				CF827AF421119845006FE974 /* GothamRounded-Light.otf */,
+			);
+			path = newFonts;
 			sourceTree = "<group>";
 		};
 		CF8A63502108558700215C97 = {
@@ -416,8 +430,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF827AF521119845006FE974 /* GothamRounded-Book.otf in Resources */,
 				CFA2AE1B2109FCDA00510A75 /* GothamRounded-Light.otf in Resources */,
 				CF8A63672108558700215C97 /* LaunchScreen.storyboard in Resources */,
+				CF827AF621119845006FE974 /* GothamRounded-Light.otf in Resources */,
 				CFA2AE1C2109FCDA00510A75 /* GothamRounded-Book.otf in Resources */,
 				CF8A63642108558700215C97 /* Assets.xcassets in Resources */,
 				CF8A63622108558700215C97 /* Main.storyboard in Resources */,
