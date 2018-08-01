@@ -22,7 +22,7 @@ class HomeViewModel {
     
     func initializeObservableGeoNames() -> Disposable{
         
-        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
+        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<[CityCoordinates]>> in
             self.loaderControll.onNext(true)
             return GeoNamesService().fetchLatAndLogFromGeoNames(querry: "Osijek")
         }
@@ -33,17 +33,13 @@ class HomeViewModel {
             .subscribe(onNext: { (geoData) in
                 print(geoData)
                 if geoData.errorMessage == nil{
-                    self.WeatherInformation.cityName = geoData.data.cityname
-                    self.cityCoordinates = geoData.data
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                         self.darkSkyDownloadTrigger.onNext(true)
-                    }
-                   
+                    self.cityCoordinates = geoData.data.first
+                    
+                    self.dataIsReady.onNext(true)
                 } else {
                     self.errorOccured.onNext(true)
                 }
             })
-        
     }
     
     func initializeObservableDarkSkyService() -> Disposable{

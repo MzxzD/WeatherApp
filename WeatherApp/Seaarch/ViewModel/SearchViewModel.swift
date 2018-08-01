@@ -14,7 +14,7 @@ import RealmSwift
 class SearchViewModel {
     
     
-//    var WeatherInformation = Weather()
+    //    var WeatherInformation = Weather()
     var cityName: String? = ""
     var dataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
@@ -30,8 +30,9 @@ class SearchViewModel {
     
     func initializeObservableGeoNames() -> Disposable{
         
-        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
+        let geoObservable = geoDownloadTrigger.flatMap { [unowned self] (_) -> Observable<DataAndErrorWrapper<[CityCoordinates]>> in
             self.loaderControll.onNext(true)
+            self.querry = self.querry.replacingOccurrences(of: " ", with: "%20")
             return GeoNamesService().fetchLatAndLogFromGeoNames(querry: self.querry)
         }
         
@@ -42,6 +43,7 @@ class SearchViewModel {
                 print(geoData)
                 if geoData.errorMessage == nil{
                     self.cityCoordinates = geoData.data
+                    
                     self.dataIsReady.onNext(true)
                 } else {
                     self.errorOccured.onNext(true)
@@ -60,7 +62,6 @@ class SearchViewModel {
         print("canceling....")
         self.searchCoordinatorDelegate?.dissmissView()
     }
-    
     
     func citySelected(selectedCity: Int) {
         // Delegate for dissmiss and data passing back to HomeView

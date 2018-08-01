@@ -6,22 +6,20 @@ import RxAlamofire
 
 
 class GeoNamesService{
-    let maxRows = "3"
-//    let q = "Osijek"
+    let maxRows = "8"
+    //    let q = "Osijek"
     let username = "mdoslic"
-
+    var cityLocaton: [CityCoordinates] = []
     
-    func fetchLatAndLogFromGeoNames(querry: String) -> Observable<DataAndErrorWrapper<CityCoordinates>> {
-            let url = URL(string: "http://api.geonames.org/searchJSON?formatted=true&q=\(querry)&maxRows=3&lang=es&username=mdoslic&style=full")
-
+    func fetchLatAndLogFromGeoNames(querry: String) -> Observable<DataAndErrorWrapper<[CityCoordinates]>> {
+        let url = URL(string: "http://api.geonames.org/searchJSON?formatted=true&q=\(querry)&maxRows=\(maxRows)&lang=es&username=mdoslic&style=full")
         
         return RxAlamofire
             .data(.get, url!)
-
-            .map({ (response) -> DataAndErrorWrapper<CityCoordinates> in
+            
+            .map({ (response) -> DataAndErrorWrapper<[CityCoordinates]> in
                 let decoder = JSONDecoder()
-//                var geoNames: [GeoNames] = []
-                var cityLocaton: [CityCoordinates] = []
+                
                 let responseJSON = response
                 print("prijeFO")
                 do {
@@ -29,22 +27,24 @@ class GeoNamesService{
                     print("DO")
                     let geoData  = data.geonames
                     for geoArrayData: Geonames in geoData! {
-//                        cityLocaton += [CityCoordinates(values: asciiName: geoArrayData.asciiName , lat: geoArrayData.lat, lng: geoArrayData.lng ) ]
+                        let temporarySavingArray = CityCoordinates()
+                        temporarySavingArray.cityname = geoArrayData.asciiName
+                        temporarySavingArray.latitute = geoArrayData.lat
+                        temporarySavingArray.longitude = geoArrayData.lng
+                        
+                        self.cityLocaton.append(temporarySavingArray)
+                        
                     }
-                  
-                 
                     
                 }catch let error
                 {
                     print("Catch")
-                    return DataAndErrorWrapper(data: geoNames, errorMessage: error.localizedDescription)
+                    return DataAndErrorWrapper(data: self.cityLocaton, errorMessage: error.localizedDescription)
                 }
-//                cityLocaton = CityCoordinates(value: ["latitute": geoNames.lat, "longitude": geoNames.lng, "cityname": geoNames.asciiName])
-                
-                return DataAndErrorWrapper(data: cityLocaton, errorMessage: nil)
+                return DataAndErrorWrapper(data: self.cityLocaton, errorMessage: nil)
             })
-            .catchError({ (error) -> Observable<DataAndErrorWrapper<CityCoordinates>> in
-                return Observable.just(DataAndErrorWrapper(data: [] , errorMessage: error.localizedDescription))
+            .catchError({ (error) -> Observable<DataAndErrorWrapper<[CityCoordinates]>> in
+                return Observable.just(DataAndErrorWrapper(data: self.cityLocaton , errorMessage: error.localizedDescription))
             })
     }
     
