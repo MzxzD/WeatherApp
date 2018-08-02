@@ -14,7 +14,7 @@ class SettingsCoordinator: Coordinator {
     var presenter: UINavigationController
     var childCoordinators: [Coordinator] = []
     let controller: SettingsViewController
-    var searchViewDelegate: SearchViewDelegate?
+    var settingsViewDelegate: SettingsViewDelegate?
     
     init(presneter: UINavigationController){
         self.presenter = presneter
@@ -33,15 +33,11 @@ class SettingsCoordinator: Coordinator {
 }
 
 extension SettingsCoordinator: DissmissViewDelegate{
-    func startDownloadFromDarkSky() -> (PublishSubject<Bool>) {
-        return  (self.searchViewDelegate?.weatherDownloadTrigger())!
-    }
-    
-  
-    
-    
+
     func dissmissView() {
-        self.presenter.dismiss(animated: true)
+        self.presenter.dismiss(animated: true,completion:{
+            self.settingsViewDelegate?.weatherDownloadTrigger()
+        })
     }
     
     func viewHasFinished() {

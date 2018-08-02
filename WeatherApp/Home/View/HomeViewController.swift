@@ -270,7 +270,7 @@ class HomeViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 if event {
-                    errorOccured()
+                    errorOccured(viewToPresent: self)
                 }
             })
             .disposed(by: disposeBag)
@@ -429,31 +429,31 @@ class HomeViewController: UIViewController {
         
         let weatherInfo = homeViewModel.weatherInformation
         
-        weatherLabel.text = weatherInfo.summary
-        cityLabel.text = weatherInfo.cityName
-        weatherHeaderImage.image = weatherInfo.headerImage
-        weatherBodyImage.image = weatherInfo.bodyImage
-        view.backgroundColor = weatherInfo.backgroundColor
-        rainChance.text = "\(weatherInfo.humidity)%"
-        pressureIndicator.text = "\((weatherInfo.pressure))hpa"
+        weatherLabel.text = weatherInfo?.summary
+        cityLabel.text = weatherInfo?.cityName
+        weatherHeaderImage.image = weatherInfo?.headerImage
+        weatherBodyImage.image = weatherInfo?.bodyImage
+        view.backgroundColor = weatherInfo?.backgroundColor
+        rainChance.text = "\(weatherInfo?.humidity ?? 0)%"
+        pressureIndicator.text = "\((weatherInfo?.pressure) ?? 0)hpa"
         
         
         
         if (settingsConfiguration?.unit  == UnitSystem.Imperial.value ){
-            windSpeed.text = "\( weatherInfo.windSpeed)mph"
-            temperatureLabel.text = "\((weatherInfo.temperature))°"
-            minTemperature.text = "\( weatherInfo.temperatureMin)°F"
-            maxTemperature.text = "\( weatherInfo.temperatureMax)°F"
+            windSpeed.text = "\( weatherInfo?.windSpeed ?? 0)mph"
+            temperatureLabel.text = "\((weatherInfo?.temperature) ?? 0)°"
+            minTemperature.text = "\( weatherInfo?.temperatureMin ?? 0)°F"
+            maxTemperature.text = "\( weatherInfo?.temperatureMax ?? 0)°F"
         }
         
         
         if (settingsConfiguration?.unit == UnitSystem.Metric.value){
-            pressureIndicator.text = "\((weatherInfo.pressure))hpa"
-            windSpeed.text = "\( weatherInfo.windSpeed)km/h"
-            rainChance.text = "\(weatherInfo.humidity)%"
-            temperatureLabel.text = "\((weatherInfo.temperature))°C"
-            minTemperature.text = "\( weatherInfo.temperatureMin)°C"
-            maxTemperature.text = "\( weatherInfo.temperatureMax)°C"
+            pressureIndicator.text = "\((weatherInfo?.pressure) ?? 0)hpa"
+            windSpeed.text = "\( weatherInfo?.windSpeed ?? 0)km/h"
+            rainChance.text = "\(weatherInfo?.humidity ?? 0)%"
+            temperatureLabel.text = "\((weatherInfo?.temperature) ?? 0)°C"
+            minTemperature.text = "\( weatherInfo?.temperatureMin ?? 0)°C"
+            maxTemperature.text = "\( weatherInfo?.temperatureMax ?? 0)°C"
         }
         
     }

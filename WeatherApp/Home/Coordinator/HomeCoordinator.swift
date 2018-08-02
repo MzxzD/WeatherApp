@@ -34,9 +34,9 @@ class HomeCoordinator: Coordinator {
 
 extension HomeCoordinator: SearchViewDelegate {
     
-    func weatherDownloadTrigger() -> PublishSubject<Bool> {
+    func weatherDownloadTrigger(){
         controller.homeViewModel.darkSkyDownloadTrigger.onNext(true)
-        return controller.homeViewModel.loaderControll
+
     }
     
     func openSearchView() {
@@ -53,15 +53,12 @@ extension HomeCoordinator: SearchViewDelegate {
 }
 
 extension HomeCoordinator: SettingsViewDelegate {
-    func weatherDownloadTrigger() {
-        
-    }
     
     func openSettingsView() {
         print("here we go!")
         let settingsCoordinator = SettingsCoordinator(presneter: self.presenter)
         settingsCoordinator.start()
-        settingsCoordinator.searchViewDelegate = self
+        settingsCoordinator.settingsViewDelegate = self
         self.addChildCoordinator(childCoordinator: settingsCoordinator)
     }
     

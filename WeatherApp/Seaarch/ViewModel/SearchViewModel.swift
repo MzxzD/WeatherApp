@@ -85,11 +85,8 @@ class SearchViewModel {
         if ( !self.realmServise.create(object: citySelectedData) ){
             errorOccured.onNext(true)
         }
-//        self.searchCoordinatorDelegate?.dissmissView()
-        print(self.homeViewDataIsReady)
-        self.homeViewDataIsReady = (self.searchCoordinatorDelegate?.startDownloadFromDarkSky())!
-        print(self.homeViewDataIsReady)
-        loaderControll.onNext(true)
+        self.searchCoordinatorDelegate?.dissmissView()
+
         
     }
 }

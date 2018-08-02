@@ -90,7 +90,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CityViewCell else
         {
-            errorOccured()
+             errorOccured(viewToPresent: self)
             return UITableViewCell()
             
         }
@@ -217,7 +217,7 @@ class SearchViewController: UIViewController,UITableViewDelegate, UITableViewDat
             .subscribe(onNext: { (event) in
                 if event {
                     self.loadingIndicator.stopAnimating()
-                    downloadError(viewToPresent: self)
+                     errorOccured(viewToPresent: self)
                 } else {
                 }
             })

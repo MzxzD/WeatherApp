@@ -34,22 +34,16 @@ class SearchCoordinator: Coordinator {
 }
 
 extension SearchCoordinator: DissmissViewDelegate{
-
-    
-    func startDownloadFromDarkSky() -> PublishSubject<Bool> {
-        return (self.searchViewDelegate?.weatherDownloadTrigger())!
-    }
-    
     
     func dissmissView() {
         
         
         
-        self.presenter.dismiss(animated: true)
+        self.presenter.dismiss(animated: true , completion: {
+            self.searchViewDelegate?.weatherDownloadTrigger()
+            })
     }
-//    , completion: {
-//    self.searchViewDelegate?.weatherDownloadTrigger()
-//    }
+
     func viewHasFinished() {
         childCoordinators.removeAll()
     }

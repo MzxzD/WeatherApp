@@ -239,7 +239,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CityViewCell else
         {
-            errorOccured()
+            errorOccured(viewToPresent: self)
             return UITableViewCell()
             
         }
@@ -391,7 +391,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 if event {
-                    errorOccured()
+                    errorOccured(viewToPresent: self)
                 } else {
                 }
             })

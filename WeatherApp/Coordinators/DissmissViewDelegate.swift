@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import RxSwift
+
 
 
 protocol DissmissViewDelegate: CoordinatorDelegate {
     func dissmissView()
-    func startDownloadFromDarkSky() -> PublishSubject<Bool>
 }

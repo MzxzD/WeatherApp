@@ -5,7 +5,7 @@ import RealmSwift
 
 class HomeViewModel {
     
-    var weatherInformation = Weather()
+    var weatherInformation: Weather!
     var cityName: String? = ""
     var dataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
@@ -41,7 +41,7 @@ class HomeViewModel {
     func initializeObservableDarkSkyService() -> Disposable{
         
         let darkSkyObservable = darkSkyDownloadTrigger.flatMap { (_) -> Observable<DataAndErrorWrapper<DarkSkyResponse>> in
-            
+                 self.weatherInformation = Weather()
             if ( self.realmServise.realm.objects(CityCoordinates.self).isEmpty == true) {
                 let lat = "45.554962"
                 let log = "18.695514"
@@ -60,6 +60,7 @@ class HomeViewModel {
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .observeOn(MainScheduler.instance)
             .map({ [unowned self] (darkSkyData) -> DataAndErrorWrapper<DarkSkyResponse> in
+               
                 self.weatherInformation.humidity = (darkSkyData.data.currently.humidity) * 100
                 self.weatherInformation.icon = icon(rawValue: (darkSkyData.data.currently.icon))
                 self.weatherInformation.pressure = Int((darkSkyData.data.currently.pressure))
@@ -68,7 +69,7 @@ class HomeViewModel {
                 self.weatherInformation.windSpeed = (darkSkyData.data.currently.windSpeed)
                 
                 
-                let weatherImageTuple: (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) =
+                let weatherImageTuple: (bodyWeatherImage: UIImage?,headerWeatherImaage: UIImage?,color: UIColor) =
                     self.getWeatherImageTuple()
                 
             
@@ -115,9 +116,10 @@ class HomeViewModel {
             })
     }
     
-    func getWeatherImageTuple() -> (bodyWeatherImage: UIImage,headerWeatherImaage: UIImage,color: UIColor) {
+    func getWeatherImageTuple() -> (bodyWeatherImage: UIImage?,headerWeatherImaage: UIImage?,color: UIColor) {
         if (self.weatherInformation.icon == nil){
-            self.weatherInformation.icon = icon(rawValue: "clear-day")
+            self.weatherInformation.icon = icon(rawValue: "error")
+            errorOccured.onNext(true)
         }
         return self.weatherInformation.icon.values()
     }
