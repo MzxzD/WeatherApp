@@ -10,15 +10,29 @@ import UIKit
 import Alamofire
 import AlamofireImage
 import RxSwift
+import CoreLocation
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
-    
+    let locationManager = CLLocationManager()
     let disposeBag = DisposeBag()
     var settingsViewModel: SettingsViewModel!
     var alert = UIAlertController()
     let cellIdentifier = "WeatherViewCell"
     
+    
+    let diaryButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setBackgroundImage(#imageLiteral(resourceName: "diary-book-notebook-memo-textbook-bookmark-notepad-33d26a12af5afb61-512x512"), for: .normal)
+        button.contentMode = .scaleAspectFit
+//        button.setTitle("Done", for: .normal)
+//        button.setTitleColor(.white, for: .normal)
+//        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(diaryButtonPressed), for: .touchUpInside)
+        return button
+    }()
     
     let doneButton: UIButton = {
         let button = UIButton()
@@ -199,6 +213,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        definesPresentationContext = true
         self.settingsViewModel.initializeSettingsConfiguration()
         addBlurEffectToBackground()
         cityTableView.register(CityViewCell.self, forCellReuseIdentifier: cellIdentifier)
@@ -208,7 +223,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         setupView()
         initializeRealmObservable()
         initializeError()
-        
+        initialiseLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -224,6 +239,46 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    
+    func initialiseLocation() {
+        self.locationManager.requestAlwaysAuthorization()
+        if CLLocationManager.locationServicesEnabled(){
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            self.locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first{
+            self.settingsViewModel.localCoordinates = (latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == CLAuthorizationStatus.denied){
+            showLocationDisabledPopUp()
+        }
+    }
+    
+    func showLocationDisabledPopUp(){
+        let alertContoller = UIAlertController(title: "BackGround Location Acces Disabled",
+                                               message: "You wont be able to use local",
+                                               preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertContoller.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .default) {(action) in
+            if let url = URL(string: UIApplicationOpenSettingsURLString){
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertContoller.addAction(openAction)
+        
+        self.present(alertContoller, animated: true, completion: nil)
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -348,6 +403,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         pressureButon.topAnchor.constraint(equalTo: pressureImageView.bottomAnchor, constant: 4).isActive = true
         pressureButon.centerXAnchor.constraint(equalTo: pressureImageView.centerXAnchor).isActive = true
         
+        view.addSubview(diaryButton)
+        diaryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        diaryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15).isActive = true
+        diaryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        diaryButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        
         view.addSubview(doneButton)
         doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
         doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15).isActive = true
@@ -428,6 +490,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @objc func doneButtonPressed() {
         self.settingsViewModel.dissmissTheView()
+    }
+    
+    @objc func diaryButtonPressed()  {
+        self.settingsViewModel.openDiary()
     }
     
 }

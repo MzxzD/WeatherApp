@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationController.isNavigationBarHidden = true
         window?.rootViewController = navigationController
         let coordinator = AppCoordinator(presneter: navigationController)
+        IQKeyboardManager.shared().isEnabled = true
         coordinator.start()
         self.coordinator = coordinator
         

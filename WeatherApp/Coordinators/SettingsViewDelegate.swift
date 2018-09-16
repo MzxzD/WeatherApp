@@ -9,6 +9,6 @@
 import Foundation
 
 protocol SettingsViewDelegate: CoordinatorDelegate {
-    func openSettingsView()
+    func openSettingsView(weather: Weather)
     func weatherDownloadTrigger()
 }

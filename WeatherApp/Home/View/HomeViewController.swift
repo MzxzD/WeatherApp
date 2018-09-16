@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
     
     var weatherInfoView: UIView = {
         let view = UIView()
+        
         return view
     }()
     

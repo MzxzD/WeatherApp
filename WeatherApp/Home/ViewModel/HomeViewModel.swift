@@ -10,7 +10,7 @@ class HomeViewModel {
     var dataIsReady = PublishSubject<Bool>()
     var loaderControll = PublishSubject<Bool>()
     var errorOccured = PublishSubject<Bool>()
-    var darkSkyDownloadTrigger = PublishSubject<Bool>()
+    var darkSkyDownloadTrigger = ReplaySubject<Bool>.create(bufferSize: 1)
     var darkServise = DarkSkyService()
     var searchCoordinatorDelegate: SearchViewDelegate?
     var settingsCoordinatorDelegate: SettingsViewDelegate?
@@ -135,7 +135,7 @@ class HomeViewModel {
     }
     
     func openSettingsView(){
-        self.settingsCoordinatorDelegate?.openSettingsView()
+        self.settingsCoordinatorDelegate?.openSettingsView(weather: self.weatherInformation)
     }
     
 }

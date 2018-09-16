@@ -54,9 +54,9 @@ extension HomeCoordinator: SearchViewDelegate {
 
 extension HomeCoordinator: SettingsViewDelegate {
     
-    func openSettingsView() {
+    func openSettingsView(weather: Weather) {
         print("here we go!")
-        let settingsCoordinator = SettingsCoordinator(presneter: self.presenter)
+        let settingsCoordinator = SettingsCoordinator(presneter: self.presenter, weather: weather)
         settingsCoordinator.start()
         settingsCoordinator.settingsViewDelegate = self
         self.addChildCoordinator(childCoordinator: settingsCoordinator)

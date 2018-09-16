@@ -60,7 +60,7 @@ enum icon : String{
             return (bodyWeatherImage: #imageLiteral(resourceName: "body_image-thunderstorm"), headerWeatherImaage: #imageLiteral(resourceName: "header_image-thunderstorm"), color:UIColor(red:0.04, green:0.23, blue:0.31, alpha:1.0))
         case .wind:
             return (bodyWeatherImage: #imageLiteral(resourceName: "body_image-wind"), headerWeatherImaage: #imageLiteral(resourceName: "header_image-wind"), color:UIColor(red:0.35, green:0.72, blue:0.88, alpha:1.0))
-        default: //wind
+        default: //error
             return (bodyWeatherImage: nil, headerWeatherImaage: nil, color: .black )
         }
     }

@@ -12,6 +12,10 @@ target 'WeatherApp' do
   pod 'RxCocoa',    '~> 4.0'
   pod 'RxAlamofire'
   pod 'RealmSwift'
+  pod 'Charts'
+  pod 'ChartsRealm'
+  pod 'Kingfisher'
+  pod 'IQKeyboardManager'
 
 end
 

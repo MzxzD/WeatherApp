@@ -6,10 +6,10 @@
 //  Copyright © 2018 Mateo Došlić. All rights reserved.
 //
 
-import Foundation
-import UIKit
-
-protocol WeatherViewCellDelegate: class {
-    func didPressButton(_ sender: CityViewCell)
-}
+//import Foundation
+//import UIKit
+//
+//protocol WeatherViewCellDelegate: class {
+//    func didPressButton(_ sender: CityViewCell)
+//}
 

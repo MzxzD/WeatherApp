@@ -2,6 +2,14 @@ PODS:
   - Alamofire (4.7.2)
   - AlamofireImage (3.3.1):
     - Alamofire (~> 4.5)
+  - Charts (3.1.1):
+    - Charts/Core (= 3.1.1)
+  - Charts/Core (3.1.1)
+  - ChartsRealm (3.1.1):
+    - Charts (~> 3.1.1)
+    - RealmSwift (~> 3.7.1)
+  - IQKeyboardManager (6.1.1)
+  - Kingfisher (4.8.1)
   - Realm (3.7.1):
     - Realm/Headers (= 3.7.1)
   - Realm/Headers (3.7.1)
@@ -20,6 +28,10 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - AlamofireImage
+  - Charts
+  - ChartsRealm
+  - IQKeyboardManager
+  - Kingfisher
   - RealmSwift
   - RxAlamofire
   - RxCocoa (~> 4.0)
@@ -30,6 +42,10 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
+    - Charts
+    - ChartsRealm
+    - IQKeyboardManager
+    - Kingfisher
     - Realm
     - RealmSwift
     - RxAlamofire
@@ -40,6 +56,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
+  Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
+  ChartsRealm: 35728e98e8d365a45c54fa7a1fa47663d2539887
+  IQKeyboardManager: 79c57795f5c2408d259d37b9da2ed07efcbb5225
+  Kingfisher: 868c1149679a7ab6869be118faa9b5aed154aaf0
   Realm: 906be37d52f17f25484ac01643a7f26a9d3bfbd5
   RealmSwift: 1c2b6bae3dc55bb87e080ffa96537d71442f6dce
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
@@ -47,6 +67,6 @@ SPEC CHECKSUMS:
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 619c2c61cca5dc40c93b05cc210db6c7548eb6cb
+PODFILE CHECKSUM: 80fecb1104cfdba6cf237a56b4ff18eabed5c12d
 
 COCOAPODS: 1.5.3

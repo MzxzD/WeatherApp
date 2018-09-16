@@ -10,19 +10,27 @@ import Foundation
 import UIKit
 import RxSwift
 import RealmSwift
+import CoreLocation
 
 
 class SettingsViewModel {
-    
+    let weather: Weather
+    var localCoordinates: (latitude: Double, longitude: Double)?
     var cities: [CityCoordinates] = []
     var realmServise = RealmSerivce()
     var dataIsReady = PublishSubject<Bool>()
     var realmTrigger = PublishSubject<Bool>()
     var errorOccurd = PublishSubject<Bool>()
     var settingsCoordinatorDelegate: DissmissViewDelegate?
+    var diaryDelegate: DiaryCoordinatorDelegate?
     var settingsConfiguration: Configuration!
     func initializeSettingsConfiguration() {
         settingsConfiguration = realmServise.getSettingsFromRealm()
+    }
+
+    
+    init(weather: Weather) {
+        self.weather = weather
     }
     
     func getStoredCities() -> Disposable {
@@ -98,6 +106,10 @@ class SettingsViewModel {
         self.settingsCoordinatorDelegate?.dissmissView()
     }
     
+    func openDiary() {
+        self.diaryDelegate?.openDiaryView()
+    }
+    
     func deleteACity(selectedCity: Int) {
         let cityToRemove = cities[selectedCity]
         if ( self.realmServise.delete(object: cityToRemove)) {
@@ -110,6 +122,11 @@ class SettingsViewModel {
     
     func citySelected(selectedCty: Int){
         let citySelected = CityCoordinates(value: cities[selectedCty])
+        if citySelected.cityname == "Local"{
+            citySelected.latitute = String(format:"%f", (self.localCoordinates?.latitude)!)
+            citySelected.longitude = String(format:"%f", (self.localCoordinates?.longitude)!)
+        }
+        
         if (self.realmServise.delete(object: cities[selectedCty])){} else { errorOccurd.onNext(true) }
         if (self.realmServise.create(object: citySelected)){} else {errorOccurd.onNext(true) }
         self.dissmissTheView()
