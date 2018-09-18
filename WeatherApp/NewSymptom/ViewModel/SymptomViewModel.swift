@@ -74,7 +74,10 @@ class SymptomViewModel: SymptomViewModelProtocol {
     func saveAndDissmissView() {
         let symptom = newSymptom
         symptom.date = Date()
-        symptom.weather = self.weather
+        
+        if (!self.realmServise.create(object: self.weather)){
+            // ERROR
+        }
         if (!self.realmServise.create(object: symptom)){
             // ERROR
         }

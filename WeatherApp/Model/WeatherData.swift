@@ -1,18 +1,19 @@
 
 import UIKit
+import Realm
+import RealmSwift
 
-
-struct Weather  {
-    var cityName: String!
+class Weather: Object  {
+    @objc dynamic var cityName: String!
     var icon: icon!
-    var humidity: Double = 0
-    var pressure: Int = 0
-    var temperature: Int = 0
-    var time: Int = 0
-    var windSpeed: Double = 0
-    var summary: String = ""
-    var temperatureMin: Double = 0
-    var temperatureMax: Double = 0
+   @objc dynamic  var humidity: Double = 0
+   @objc dynamic  var pressure: Int = 0
+    @objc dynamic var temperature: Int = 0
+    @objc dynamic var time: Int = 0
+    @objc dynamic var windSpeed: Double = 0
+    @objc dynamic var summary: String = ""
+    @objc dynamic var temperatureMin: Double = 0
+   @objc dynamic  var temperatureMax: Double = 0
     var backgroundColor: UIColor!
     var headerImage: UIImage!
     var bodyImage: UIImage!

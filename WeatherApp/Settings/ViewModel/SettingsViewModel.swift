@@ -123,8 +123,17 @@ class SettingsViewModel {
     func citySelected(selectedCty: Int){
         let citySelected = CityCoordinates(value: cities[selectedCty])
         if citySelected.cityname == "Local"{
-            citySelected.latitute = String(format:"%f", (self.localCoordinates?.latitude)!)
-            citySelected.longitude = String(format:"%f", (self.localCoordinates?.longitude)!)
+            if let latitude = self.localCoordinates?.latitude {
+                citySelected.latitute = String(format:"%f",(latitude))
+            }else {
+                citySelected.latitute = "0"
+            }
+            if let longitude = self.localCoordinates?.longitude{
+                citySelected.longitude = String(format:"%f",(longitude))
+            }else {
+                citySelected.longitude = "0"
+            }
+            
         }
         
         if (self.realmServise.delete(object: cities[selectedCty])){} else { errorOccurd.onNext(true) }
