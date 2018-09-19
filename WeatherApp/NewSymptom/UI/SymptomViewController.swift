@@ -58,7 +58,6 @@ class SymptomViewController: UIViewController, TableRefreshView {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
         tableView.register(SymptomTableViewCell.self, forCellReuseIdentifier: SymptomTableViewCell.identifier)
         tableView.register(CellHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellHeaderFooterView.identifier)
 //        tableView.register(NameTableViewCell.self, forCellReuseIdentifier: NameTableViewCell.identifier)
@@ -80,13 +79,7 @@ class SymptomViewController: UIViewController, TableRefreshView {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: 15),
-//            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15),
-//            doneButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            
-            
+
             doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15),
             doneButton.heightAnchor.constraint(equalToConstant: 40),

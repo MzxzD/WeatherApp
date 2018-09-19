@@ -30,6 +30,7 @@
 		B5490A1D214E4AC700467A33 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5490A14214E4AC500467A33 /* UIView+Extension.swift */; };
 		B5490A1E214E4AC700467A33 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5490A15214E4AC600467A33 /* CALayer+Extension.swift */; };
 		B5490A1F214E4AC700467A33 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5490A16214E4AC700467A33 /* String+Extension.swift */; };
+		B57136492152129500658E56 /* BarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57136482152129500658E56 /* BarTableViewCell.swift */; };
 		B59084A2214E4BD7006F42ED /* SymptomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59084A1214E4BD7006F42ED /* SymptomTableViewCell.swift */; };
 		B591E985214E2245009B4814 /* DiaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B591E984214E2245009B4814 /* DiaryCoordinator.swift */; };
 		B591E987214E22CB009B4814 /* DiaryViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B591E986214E22CB009B4814 /* DiaryViewViewController.swift */; };
@@ -99,6 +100,7 @@
 		B5490A14214E4AC500467A33 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B5490A15214E4AC600467A33 /* CALayer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		B5490A16214E4AC700467A33 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		B57136482152129500658E56 /* BarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarTableViewCell.swift; sourceTree = "<group>"; };
 		B59084A1214E4BD7006F42ED /* SymptomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomTableViewCell.swift; sourceTree = "<group>"; };
 		B591E984214E2245009B4814 /* DiaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoordinator.swift; sourceTree = "<group>"; };
 		B591E986214E22CB009B4814 /* DiaryViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewViewController.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				B591E986214E22CB009B4814 /* DiaryViewViewController.swift */,
+				B57136482152129500658E56 /* BarTableViewCell.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -718,6 +721,7 @@
 				CFEFB94C210AFEC600CCA044 /* SearchViewController.swift in Sources */,
 				B591E989214E2318009B4814 /* DiaryViewModel.swift in Sources */,
 				CF62A4C1210B6B1F00A9468B /* DissmissViewDelegate.swift in Sources */,
+				B57136492152129500658E56 /* BarTableViewCell.swift in Sources */,
 				B5490A0B214E4AA000467A33 /* TableRefreshViewModel.swift in Sources */,
 				CF62A4C7210B715900A9468B /* SettingsCoordinator.swift in Sources */,
 				CF7B2788210AF2E300CFBE16 /* CoordinatorDelegate.swift in Sources */,

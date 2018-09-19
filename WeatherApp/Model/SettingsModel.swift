@@ -12,7 +12,7 @@ class Configuration: Object {
     func values(weatherObject: Weather) -> Weather {
         switch unit {
         case false :
-            var metricWeatherObject = weatherObject
+            let metricWeatherObject = weatherObject
             metricWeatherObject.windSpeed = (metricWeatherObject.windSpeed * 1.609344).rounded()
             metricWeatherObject.temperature = (Int((Float(metricWeatherObject.temperature) - 32) * (5/9)))
             metricWeatherObject.temperatureMax = ((metricWeatherObject.temperatureMax - 32) * (5/9)).rounded()
